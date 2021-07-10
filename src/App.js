@@ -1,6 +1,11 @@
+import React from 'react';
+//import logo from './logo.svg';
 import logo from './logo.svg';
 import './App.css';
 
+import MaestroView from './Maestro/MaestroView';
+
+/*
 function App() {
   return (
     <div className="App">
@@ -20,6 +25,22 @@ function App() {
       </header>
     </div>
   );
+}
+*/
+
+
+class App extends React.Component
+{
+  render()
+  {
+    return (
+      <div>
+        <MaestroView />  
+      </div>
+
+    );
+  }
+
 }
 
 export default App;
