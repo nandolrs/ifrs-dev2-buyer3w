@@ -292,7 +292,7 @@ class LocalForm extends React.Component
             processando={this.props.processando}
             OnExcluir={() => this.Excluir()}
             OnSalvar={() => this.Salvar()}
-            OnVoltar={() => this.this.props.OnVoltar()}
+            OnVoltar={() => this.props.OnVoltar()}
         />
 
 
