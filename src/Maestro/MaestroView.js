@@ -1,5 +1,6 @@
 import React from 'react';
 import LocalView from '../Local/LocalView';
+import ClasseView from '../Classe/ClasseView';
 
 import { isNumericLiteral } from '@babel/types';
 import axios from 'axios';
@@ -19,7 +20,6 @@ class MaestroView extends React.Component
        
     }
 
-
     render()
     {
         return(
@@ -29,12 +29,25 @@ class MaestroView extends React.Component
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
                         visao = {this.state.visao} 
-                        OnIniciar={()=>this.Iniciar()}
                         OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
                         OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
                     />
                 : "" 
                 }
+
+                {window.location.pathname=='/classe' ?
+                    <ClasseView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }
+
 
             </div>
         );
