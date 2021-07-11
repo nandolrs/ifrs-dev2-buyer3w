@@ -4,6 +4,9 @@ import LocalView from './LocalView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
+import SisMensagemView from '../SisPadrao/SisMensagemView';
+import SisManterView from '../SisPadrao/SisManterView';
+
 
 class LocalPesquisa extends React.Component
 {
@@ -13,14 +16,15 @@ class LocalPesquisa extends React.Component
         this.state={
             codigo:0
             ,nome:''
-            ,visao:this.props.visao
+            ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             ,lista:null
         };
     }
 
-
     Pesquisar()
     {
+        this.setState({visao:'processando'});
+
         let _p = 'nome=';
         if(this.state.nome != '')
         {
@@ -37,17 +41,87 @@ class LocalPesquisa extends React.Component
             ,p:_p
         };
 
-        this.props.OnPesquisar(entidade);
-        
+        this.SisManterPesquisar(entidade);
     }
-
-
     
     Incluir()
     {
         this.props.OnIncluir();
     }
 
+
+    Evento(resposta, acao)
+    {        
+        debugger;
+
+        if(acao=='pesquisou' 
+            || acao=='consultou'
+            || acao=='salvou'
+            || acao=='excluiu'
+            )
+        {
+        }
+
+        if(resposta.visao=='listar')
+        {
+            this.props.OnListar(resposta);
+        }
+        else
+        {
+            this.setState(resposta);
+        }
+    }
+
+    SisManterPesquisar(entidade)
+    {
+        debugger;
+
+        let p = entidade.p != '' ? '?'+entidade.p : '';
+
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/pesquisar" + p
+            ,window.getCabeca()
+        )   
+        .then((resposta)=>this.Pesquisou(resposta))
+        .catch((resposta) => this.Pesquisou(resposta));
+    }
+
+
+
+    Pesquisou(resposta)
+    {
+        debugger;
+
+        var retorno = null;
+
+        if(resposta.status == 200)
+        {   
+            var erro = resposta.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+
+                retorno = {visao:"listar"
+                    ,entidade:resposta.data.dadosLista
+                    ,mensagens:window.ToMensagens("Pesquisa retornou com sucesso.")
+                };
+            }
+            
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao pesquisar registro, repita a operação.")
+            };
+        }
+        this.Evento(retorno, 'pesquisou');
+    }
 
     render()
     {
@@ -70,6 +144,20 @@ class LocalPesquisa extends React.Component
                             value={this.state.nome}
                     />
 
+                    <SisMensagemView
+                        visao={this.state.visao}
+                        mensagens={this.state.mensagens}
+                        OnClicou={(v) => this.setState({visao:v})}
+                    />
+
+                    {this.state.visao=='processando' ?
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                            </div>
+                        </div>
+                    : ""
+                    }
+
                 </div>
 
                 <PesquisaBotoes 
@@ -78,6 +166,7 @@ class LocalPesquisa extends React.Component
                     OnIncluir={() => this.Incluir()}
                     OnPesquisar={() => this.Pesquisar()}
                 />
+
 
             </fieldset>
                                     

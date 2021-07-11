@@ -22,9 +22,16 @@ class FormBotoes extends React.Component
         return(
             <div>
 
-                {this.props.botoes == null && window.AutorizacaoConsultar(this.props.objetoAutorizacao.concat(".salvar").concat(this.props.codigo == 0 ? ".incluir" : ".alterar"), this.props.listaAutorizacao)
-                    ||  (this.props.botoes != null && _botoes.indexOf("salvar.incluir") >= 0 && window.AutorizacaoConsultar(this.props.objetoAutorizacao+".salvar"+this.props.codigo == 0 ? ".incluir" : ".alterar", this.props.listaAutorizacao)) ?
+                {this.props.botoes == null && window.AutorizacaoConsultar(this.props.objetoAutorizacao.concat(".salvar").concat(this.props.id == 0 ? ".incluir" : ".alterar"), this.props.listaAutorizacao)
+                    ||  (this.props.botoes != null && _botoes.indexOf("salvar.incluir") >= 0 && window.AutorizacaoConsultar(this.props.objetoAutorizacao+".salvar"+this.props.id == 0 ? ".incluir" : ".alterar", this.props.listaAutorizacao)) ?
                     <button id={this.GerarID('inputSalvar')}  type="button" class="btn btn-secondary btn-lg btn-block" onClick={() => this.props.OnSalvar() }>Salvar </button>
+                : ""
+                }
+
+                {this.props.id != 0 
+                    && this.props.botoes == null 
+                    && window.AutorizacaoConsultar(this.props.objetoAutorizacao.concat(".excluir"), this.props.listaAutorizacao) ?
+                    <button id={this.GerarID('inputSalvar')}  type="button" class="btn btn-secondary btn-lg btn-block" onClick={() => this.props.OnExcluir() }>Excluir </button>
                 : ""
                 }
 

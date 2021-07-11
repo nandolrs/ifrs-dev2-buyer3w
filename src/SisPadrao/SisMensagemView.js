@@ -50,7 +50,9 @@ class SisMensagemView extends React.Component
              {this.MensagensListar(_class, this.props.mensagens)}
             
             
-            {this.props.autenticado == null || this.props.autenticado  ? 
+            {  (this.props.botoes != null && this.props.botoes.indexOf("voltar") >= 0)
+             && (this.props.autenticado == null || this.props.autenticado) 
+            ?
             <button  type="button" class="btn btn-secondary btn-lg btn-block" onClick={() => this.props.OnClicou(_voltar) }>Voltar </button>
             : ""
             } 

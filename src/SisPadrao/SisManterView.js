@@ -152,8 +152,6 @@ class SisManterView extends React.Component
 
     Salvar(entidade)
     {
-        debugger;
-
         if(entidade.id==0)
         {
             axios.post(this.props.url.salvar
@@ -176,8 +174,6 @@ class SisManterView extends React.Component
 
     Salvou(resposta)
     {
-        debugger;
-
         var retorno = null;
 
         if(resposta.request.status == 200)
@@ -236,8 +232,6 @@ class SisManterView extends React.Component
 
     Excluir(entidade)
     {
-        debugger;
-
         axios.delete(this.state.url.excluir + entidade
             ,entidade
             ,window.getCabeca())
@@ -249,8 +243,6 @@ class SisManterView extends React.Component
 
     Excluiu(resposta)
     {      
-        debugger;
-
         var retorno = null;
 
         if(resposta.request.status == 200)
@@ -284,16 +276,20 @@ class SisManterView extends React.Component
 
     render()
     {
+        let mantendo = false;
         if(this.props.visao=="manter.pesquisar")
         {
+            mantendo = true;
             this.Pesquisar(this.props.entidade);
         }
         if(this.props.visao=="manter.pesquisarParaListar")
         {
+            mantendo = true;
             this.PesquisarParaListar(this.props.entidade);
         }
         if(this.props.visao=="manter.consultar")
         {
+            mantendo = true;
             if(this.props.url.consultarPOST != null)
             {
                 this.ConsultarPost(this.props.entidade);
@@ -305,24 +301,33 @@ class SisManterView extends React.Component
         }
         if(this.props.visao=="manter.salvar")
         {
+            mantendo = true;
             this.Salvar(this.props.entidade);
         }
         if(this.props.visao=="manter.excluir")
         {
+            mantendo = true;
             this.Excluir(this.props.entidadeExcluir);
         }
 
         if(this.props.visao=="manter.outros")
         {
+            mantendo = true;
             this.Outros(this.props.entidade);
         }
 
-        return(
-            <div class="text-center">
-                <div class="spinner-border" role="status">
+        let retorno='';
+
+        if(mantendo)
+        {
+            retorno =
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                    </div>
                 </div>
-            </div>
-        );
+        }
+            
+        return(retorno);
 
     }
 }

@@ -3,7 +3,10 @@ import axios from 'axios';
 import FormBotoes from '../SisPadrao/FormBotoes'
 import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 
-class FreteForm extends React.Component
+import SisMensagemView from '../SisPadrao/SisMensagemView';
+import SisManterView from '../SisPadrao/SisManterView';
+
+class LocalForm extends React.Component
 {
     constructor(props)
     {        
@@ -14,36 +17,242 @@ class FreteForm extends React.Component
                  id:0
                 ,nome:''
                 ,arquivoBuscou:false
+                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
+                ,mensagens:null
 
             };
         }
         else
-        {
-
-            var _entidadePai = {id:this.props.entidade.id};
-
+        { 
             this.state={
-                     id:this.props.entidade.id
-                    ,nome:this.props.entidade.nome
-                    ,lista:null
-                    ,visao_detalhe:"FreteArquivo.manter.pesquisar"
-                    ,entidadePai:_entidadePai
-            };
-        }
+                id:this.props.entidade.id
+//               ,nome:''
+//               ,arquivoBuscou:false
+               ,visao:'processando'
+               ,mensagens:null
 
+           };
+           let entidade = {id:this.props.entidade.id}
+
+           this.SisManterConsultar(entidade);
+        }
     }
         
     Salvar()
     {
-        this.props.OnSalvar(
-                {
-                 id:this.state.id
-                ,nome:this.state.nome
-                }
-            );
+        let entidade =  {
+        id:this.state.id
+        ,nome:this.state.nome
+        };
+        this.SisManterSalvar(entidade);
     }
 
+    Excluir()
+    {
+        let entidade =  {
+        id:this.state.id
+        };
+        this.SisManterExcluir(entidade);
+    }
+
+
+
+    SisManterExcluir(entidade)
+    {
+        debugger;
+
+        this.setState({visao:'processando'});
+
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/excluir/" + entidade.id
+            ,window.getCabeca())
+            .then((resposta)=>this.Excluiu(resposta))
+            .catch((resposta => this.Excluiu(resposta))
+            );
+
+    }
+
+    Excluiu(resposta)
+    {      
+        var retorno = null;
+
+        if(resposta.request.status == 200)
+        {
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"mensagem.sucesso"
+                  ,mensagens:window.ToMensagens("Registro excluido com sucesso.")
+                };
+            }
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao excluir registro, repita a operação.")
+            };
+        }
+
+    
+//        this.props.OnEvento(retorno, 'excluiu');
+            this.Evento(retorno, 'excluiu');
+}
+
+
     Voltar(){this.props.OnVoltar()}
+
+    Evento(resposta, acao)
+    {        
+        if(acao=='pesquisou' 
+            || acao=='consultou'
+            || acao=='salvou'
+            || acao=='excluiu'
+            )
+        {
+        }
+
+
+        if(acao=='salvou')
+        {
+            debugger;
+
+            this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
+            //this.props.OnPesquisar(resposta);
+        }
+        else if(acao =='consultou')
+        {
+            debugger;
+
+            let estado={
+                id:resposta.entidade.id
+               ,nome:resposta.entidade.nome
+               ,lista:null
+               ,visao:process.env.REACT_APP_VISAO_INFORMANDO
+            };
+            this.setState(estado);
+        }
+        else if(acao =='excluiu')
+        {
+            debugger;
+
+            this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
+            //this.props.OnPesquisar(resposta);
+        }
+   //     this.setState(resposta);
+    }
+
+    SisManterSalvar(entidade)
+    {
+        this.setState({visao:'processando'});
+
+        if(entidade.id==0)
+        {
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/local/salvar"
+                ,entidade
+                ,window.getCabeca()
+            )
+            .then((resposta)=>this.Salvou(resposta))
+            .catch((resposta) => this.Salvou(resposta));
+        }
+        else
+        {
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/local/salvar"
+                ,entidade
+                ,window.getCabeca()
+            )
+            .then((resposta)=>this.Salvou(resposta))
+            .catch((resposta) => this.Salvou(resposta));
+        }
+    }
+
+    Salvou(resposta)
+    {
+        var retorno = null;
+
+        if(resposta.request.status == 200)
+        {
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"mensagem.sucesso"
+                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
+                };
+            }
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
+            };
+        }
+
+        this.Evento(retorno, 'salvou');
+
+    }
+
+
+    SisManterConsultar(entidade)
+    {
+
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/consultar/" + entidade.id
+            ,window.getCabeca()
+            )
+            .then((resposta)=>this.Consultou(resposta))
+            .catch((resposta) => this.Consultou(resposta));
+    }
+
+    Consultou(resposta)
+    {
+        var retorno = null;
+
+        if(resposta.status == 200)
+        {   
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"consultar"
+                    ,entidade:resposta.data.dados
+                    ,entidadePesquisa:resposta.data.dados
+                    ,mensagens:window.ToMensagens("Consulta retornou com sucesso.")
+                };
+            }
+            
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao consultar registro, repita a operação.")
+            };
+        }
+
+
+        //this.props.OnEvento(retorno, 'consultou');
+        this.Evento(retorno, 'consultou');
+    }
+
 
     render()
     {
@@ -66,26 +275,32 @@ class FreteForm extends React.Component
                 value={this.state.nome}
             />
     
+            <SisMensagemView
+                visao={this.state.visao}
+                mensagens={this.state.mensagens}
+                OnClicou={(v) => this.setState({visao:v})}
+            />
+
+            {this.state.visao=='processando' ?
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                    </div>
+                </div>
+            : ""
+            }
+
         </div>
-
-        {/* <FormBotoes
-            codigo={this.props.entidade.codigo} 
-            listaAutorizacao={this.props.listaAutorizacao}
-            objetoAutorizacao={this.props.objetoAutorizacao}
-            processando={this.props.processando}
-            OnSalvar={() => this.Salvar()}
-            OnVoltar={() => this.Voltar()}
-        /> */}
-
 
         <FormBotoes
             id={this.props.entidade.id} 
-            listaAutorizacao='<INICIO>xxx.salvar.incluir<FIM><INICIO>xxx.salvar.alterar<FIM>'
-            objetoAutorizacao='xxx'
+            listaAutorizacao={this.props.listaAutorizacao}
+            objetoAutorizacao={this.props.objetoAutorizacao}
             processando={this.props.processando}
+            OnExcluir={() => this.Excluir()}
             OnSalvar={() => this.Salvar()}
             OnVoltar={() => this.Voltar()}
         />
+
 
     </fieldset>
 
@@ -99,5 +314,5 @@ class FreteForm extends React.Component
 }
 
 
-export default FreteForm;
+export default LocalForm;
 

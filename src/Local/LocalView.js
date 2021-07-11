@@ -15,6 +15,9 @@ class FreteView extends React.Component
         super(props);
         this.state={visao:"pesquisar"
             ,entidade:_entidade
+            ,entidadeIncluir:_entidade
+            ,entidadeConsultar:_entidade
+            ,entidadePesquisa:null
             ,entidadeInicio:_entidade
             ,entidadeExcluir:null
             ,processando:false
@@ -35,7 +38,6 @@ class FreteView extends React.Component
         if(visao=="menu")
         {
             this.props.OnVoltar();
-
         }
         else
         {
@@ -44,9 +46,9 @@ class FreteView extends React.Component
     }
 
     Evento(resposta, acao)
-    {
+    {        
         debugger;
-        
+
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -56,6 +58,7 @@ class FreteView extends React.Component
         }
         this.setState(resposta);
     }
+
 
     Incluir()
     {
@@ -72,6 +75,13 @@ class FreteView extends React.Component
         this.setState({entidade:entidade});
     }
 
+    SetarEstadoConsulta(entidade)
+    {
+        debugger;
+
+        this.setState({visao:'consultar', entidadeConsultar:entidade});
+
+    }
 
     render()
     {
@@ -90,56 +100,45 @@ class FreteView extends React.Component
                     entidade={this.state.entidadeInicio}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
-                    visao={this.props.visao}
                     OnIncluir={() => this.setState({visao:"incluir", entidade:this.state.entidadeInicio}) }
-                    OnPesquisar={(entidade) => this.setState({visao:"manter.pesquisar",entidade:entidade})}
+                    OnPesquisar={(estado) => this.setState({visao:'listar', entidade:estado.entidade})}
+                    OnListar={(estado) => this.setState({visao:'listar', entidade:estado.entidade})}
                 /> : ""
             }
 
-            {this.state.visao=="listar" && this.state.entidade != null ? 
+            {this.state.visao=="listar"  ? // && this.state.entidade != null 
                 <LocalLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
-                    OnConsultar={(entidade) => this.setState({visao:"manter.consultar",entidade:entidade})}
+                    OnConsultar={(entidade) => this.SetarEstadoConsulta(entidade)}
+                    OnIncluir={() => this.setState({visao:"incluir", entidade:this.state.entidadeInicio}) }
                     OnExcluir={(entidade) => this.setState({visao:"manter.excluir",entidadeExcluir:entidade})}
                     OnVoltar={() => this.Voltar("pesquisar") }
                 /> : ""
             }
 
-            {this.state.visao=="incluir" || this.state.visao=="consultar" ? 
+            {this.state.visao=="incluir"  ? 
                 <LocalForm 
-                    entidade={this.state.entidade}
+                    entidade={this.state.entidadeIncluir}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
-                    OnFreteImportar={(entidade) => this.FreteImportar(entidade)}
-                    OnSalvar={(entidade) => this.setState({visao:"manter.salvar",entidade:entidade})}
-                    OnVoltar={() => this.Voltar("pesquisar") }
                     processando={this.state.processando}
+                    OnVoltar={() => this.Voltar("pesquisar") }
             /> : ""
             }
 
-            <SisMensagemView
-                visao={this.state.visao}
-                mensagens={this.state.mensagens}
-                OnClicou={(v) => this.setState({visao:v})}
-            />
 
-            {this.state.visao=="manter.pesquisar" 
-            || this.state.visao=="manter.salvar" 
-            || this.state.visao=="manter.consultar" 
-            || this.state.visao=="manter.excluir" 
-
-            ? 
-                <SisManterView 
-                    entidade={this.state.entidade}
-                    entidadeExcluir={this.state.entidadeExcluir}
-                    url={this.state.url}
-                    visao={this.state.visao}
-                    OnEvento={(estado, acao) => this.Evento(estado, acao) }
-                />
-            :""
+            {this.state.visao=="consultar" ? 
+                <LocalForm 
+                    entidade={this.state.entidadeConsultar}
+                    listaAutorizacao={this.state.listaAutorizacao}
+                    objetoAutorizacao={this.state.objetoAutorizacao}
+                    processando={this.state.processando}
+                    OnVoltar={() => this.Voltar("pesquisar") }
+            /> : ""
             }
+
 
         </div>
 

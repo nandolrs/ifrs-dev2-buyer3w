@@ -32,10 +32,10 @@ class MaestroView extends React.Component
                         OnIniciar={()=>this.Iniciar()}
                         OnEvento={(estado, acao) => this.setState({visao:acao})} 
                         OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-
                     />
                 : "" 
                 }
+
             </div>
         );
 
