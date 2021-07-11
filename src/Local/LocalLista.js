@@ -14,18 +14,8 @@ class LocalLista extends React.Component
         this.state={entidade:this.props.entidade};
     }
 
-    Voltar(){this.props.OnVoltar()}
-
-    Consultar(id)
-    {
-        this.props.OnConsultar({id:id});
-    }
-
-
-
     render()
     {
-      var _x = this.props.objetoAutorizacao;
       return(
         
 <div class="card">
@@ -42,7 +32,7 @@ class LocalLista extends React.Component
 
               {this.state.entidade.map( (entidade) =>  
                 <div>
-  <div  class="card"  onClick={(e) => this.Consultar(entidade.id)} >
+  <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
     {entidade.nome}
     </div>
@@ -64,7 +54,7 @@ class LocalLista extends React.Component
       listaAutorizacao={this.props.listaAutorizacao}
       selecionados={this.state.selecionados}
       OnExcluir={(codigos) => this.props.OnExcluir(codigos)}
-      OnVoltar={() => this.Voltar()}
+      OnVoltar={() => this.props.OnVoltar()}
     />
 
 

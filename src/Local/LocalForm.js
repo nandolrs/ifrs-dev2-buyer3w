@@ -16,7 +16,6 @@ class LocalForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
-                ,arquivoBuscou:false
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
@@ -24,10 +23,10 @@ class LocalForm extends React.Component
         }
         else
         { 
+            debugger;
+            
             this.state={
                 id:this.props.entidade.id
-//               ,nome:''
-//               ,arquivoBuscou:false
                ,visao:'processando'
                ,mensagens:null
 
@@ -99,14 +98,9 @@ class LocalForm extends React.Component
             ,mensagens:window.ToMensagens("Erro ao excluir registro, repita a operação.")
             };
         }
-
     
-//        this.props.OnEvento(retorno, 'excluiu');
-            this.Evento(retorno, 'excluiu');
+        this.Evento(retorno, 'excluiu');
 }
-
-
-    Voltar(){this.props.OnVoltar()}
 
     Evento(resposta, acao)
     {        
@@ -298,7 +292,7 @@ class LocalForm extends React.Component
             processando={this.props.processando}
             OnExcluir={() => this.Excluir()}
             OnSalvar={() => this.Salvar()}
-            OnVoltar={() => this.Voltar()}
+            OnVoltar={() => this.this.props.OnVoltar()}
         />
 
 

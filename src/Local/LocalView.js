@@ -11,15 +11,11 @@ class FreteView extends React.Component
 {
     constructor(props)
     {
-        var _entidade = {id:0, nome:"", classe:{}, organizacao:{}};
+        var _entidade = {id:0, nome:""};
         super(props);
         this.state={visao:"pesquisar"
             ,entidade:_entidade
-            ,entidadeIncluir:_entidade
-            ,entidadeConsultar:_entidade
-            ,entidadePesquisa:null
             ,entidadeInicio:_entidade
-            ,entidadeExcluir:null
             ,processando:false
             ,url:{
                 pesquisar:process.env.REACT_APP_SERVER_URL + "/api/local/pesquisar"
@@ -45,44 +41,6 @@ class FreteView extends React.Component
         }
     }
 
-    Evento(resposta, acao)
-    {        
-        debugger;
-
-        if(acao=='pesquisou' 
-            || acao=='consultou'
-            || acao=='salvou'
-            || acao=='excluiu'
-            )
-        {
-        }
-        this.setState(resposta);
-    }
-
-
-    Incluir()
-    {
-        this.setState({visao:"incluir"});
-        this.EntidadeSetar();
-    }
-
-    EntidadeSetar()
-    {
-        var entidade = {
-            id:0
-            ,nome:''
-        };
-        this.setState({entidade:entidade});
-    }
-
-    SetarEstadoConsulta(entidade)
-    {
-        debugger;
-
-        this.setState({visao:'consultar', entidadeConsultar:entidade});
-
-    }
-
     render()
     {
 
@@ -106,40 +64,26 @@ class FreteView extends React.Component
                 /> : ""
             }
 
-            {this.state.visao=="listar"  ? // && this.state.entidade != null 
+            {this.state.visao=="listar" ? 
                 <LocalLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
-                    OnConsultar={(entidade) => this.SetarEstadoConsulta(entidade)}
+                    OnConsultar={(entidade) => this.setState({visao:"consultar", entidade:entidade}) }
                     OnIncluir={() => this.setState({visao:"incluir", entidade:this.state.entidadeInicio}) }
-                    OnExcluir={(entidade) => this.setState({visao:"manter.excluir",entidadeExcluir:entidade})}
                     OnVoltar={() => this.Voltar("pesquisar") }
                 /> : ""
             }
 
-            {this.state.visao=="incluir"  ? 
+            {this.state.visao=="incluir" || this.state.visao=="consultar"  ? 
                 <LocalForm 
-                    entidade={this.state.entidadeIncluir}
+                    entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
                     processando={this.state.processando}
                     OnVoltar={() => this.Voltar("pesquisar") }
             /> : ""
             }
-
-
-            {this.state.visao=="consultar" ? 
-                <LocalForm 
-                    entidade={this.state.entidadeConsultar}
-                    listaAutorizacao={this.state.listaAutorizacao}
-                    objetoAutorizacao={this.state.objetoAutorizacao}
-                    processando={this.state.processando}
-                    OnVoltar={() => this.Voltar("pesquisar") }
-            /> : ""
-            }
-
-
         </div>
 
   </div>

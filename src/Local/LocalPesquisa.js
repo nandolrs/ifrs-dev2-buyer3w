@@ -44,11 +44,6 @@ class LocalPesquisa extends React.Component
         this.SisManterPesquisar(entidade);
     }
     
-    Incluir()
-    {
-        this.props.OnIncluir();
-    }
-
 
     Evento(resposta, acao)
     {        
@@ -163,7 +158,7 @@ class LocalPesquisa extends React.Component
                 <PesquisaBotoes 
                     listaAutorizacao={this.props.listaAutorizacao}
                     objetoAutorizacao={this.props.objetoAutorizacao}
-                    OnIncluir={() => this.Incluir()}
+                    OnIncluir={() => this.props.OnIncluir()}
                     OnPesquisar={() => this.Pesquisar()}
                 />
 
