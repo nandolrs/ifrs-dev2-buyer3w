@@ -37,6 +37,7 @@ class ProdutoLista extends React.Component
     {entidade.nome}
     </div>
     <div class="card-body">
+      {entidade.classe.nome}
     </div>
   </div>
   <br/>

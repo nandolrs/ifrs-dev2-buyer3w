@@ -47,8 +47,6 @@ class ClassePesquisa extends React.Component
 
     Evento(resposta, acao)
     {        
-        debugger;
-
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -69,8 +67,6 @@ class ClassePesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
-        debugger;
-
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/classe/pesquisar" + p
@@ -84,8 +80,6 @@ class ClassePesquisa extends React.Component
 
     Pesquisou(resposta)
     {
-        debugger;
-
         var retorno = null;
 
         if(resposta.status == 200)
