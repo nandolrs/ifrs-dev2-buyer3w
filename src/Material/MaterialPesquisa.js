@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import ProdutoView from './ProdutoView';
+import MaterialView from './MaterialView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -8,7 +8,7 @@ import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
 
-class ProdutoPesquisa extends React.Component
+class MaterialPesquisa extends React.Component
 {
     constructor(props)
     {
@@ -16,28 +16,37 @@ class ProdutoPesquisa extends React.Component
         this.state={
             codigo:0
             ,nome:''
+            ,produtoId:0
+            ,embalagemId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
-            ,lista:null
+            ,listaProdutoBuscou:false
+            ,listaEmbalagemBuscou:false
+
         };
+        this.Listar();
+
     }
 
     Pesquisar()
     {
+        debugger;
+
         this.setState({visao:'processando'});
 
-        let _p = 'nome=';
-        if(this.state.nome != '')
+        let _p = 'produtoId=';
+        if(this.state.produtoId != 0)
         {
-            _p = _p+ this.state.nome;
+            _p = _p+ this.state.produtoId;
         }
         else
         {
-            _p = _p+ '';
+            _p = _p+ '0';
 
         }
 
-        var entidade={codigo:0
-            ,nome:this.state.nome
+        var entidade={id:0
+            ,produto:{}
+            ,material:{}
             ,p:_p
         };
 
@@ -69,7 +78,7 @@ class ProdutoPesquisa extends React.Component
     {
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/pesquisar" + p
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/pesquisar" + p
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -112,6 +121,33 @@ class ProdutoPesquisa extends React.Component
         this.Evento(retorno, 'pesquisou');
     }
 
+    
+    Listar()
+    {
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/listar",window.getCabeca()).then((resposta)=>this.Listou('produto',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/listar",window.getCabeca()).then((resposta)=>this.Listou('embalagem',resposta));
+    }
+
+    Listou(tipo, resposta)
+    {
+        if(tipo=='produto')
+        {
+            if(resposta.request.status == 200)
+            {
+                this.setState({listaProduto:resposta.data.dadosLista, listaProdutoBuscou:true});
+            }
+    
+        }else if(tipo=='embalagem')
+        {
+            if(resposta.request.status == 200)
+            {
+                this.setState({listaEmbalagem:resposta.data.dadosLista, listaEmbalagemBuscou:true});
+            }
+    
+        }
+    }
+
+
     render()
     {
         return(
@@ -126,12 +162,56 @@ class ProdutoPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputNome"  
-                            aria-describedby="nomeHelp" 
-                            placeHolder="Nome." 
-                            onChange={(o)=>this.setState({nome:o.target.value})}
-                            value={this.state.nome}
-                    />
+                {this.state.listaProdutoBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputProduto" 
+                    onChange={(o)=>this.setState({produtoId:o.target.value})}
+                    defaultValue={this.state.produtoId}
+                    value={this.state.produtoId}
+                >
+            
+                {this.state.listaProduto != null ?
+
+                    this.state.listaProduto.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome}</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe o produto</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
+            {this.state.listaEmbalagemBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputEmbalagem" 
+                    onChange={(o)=>this.setState({embalagemId:o.target.value})}
+                    defaultValue={this.state.embalagemId}
+                    value={this.state.embalagemId}
+                >
+            
+                {this.state.listaEmbalagem != null ?
+
+                    this.state.listaEmbalagem.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome + ' com ' + entidade.capacidade + ' ' + entidade.unidadeMedida.nome}</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe a embalagem</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
 
                     <SisMensagemView
                         visao={this.state.visao}
@@ -171,5 +251,5 @@ class ProdutoPesquisa extends React.Component
 }
 
 
-export default ProdutoPesquisa;
+export default MaterialPesquisa;
 
