@@ -7,7 +7,7 @@ import ClasseForm from './ClasseForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class FreteView extends React.Component
+class ClasseView extends React.Component
 {
     constructor(props)
     {
@@ -93,4 +93,4 @@ class FreteView extends React.Component
     }
 }
 
-export default FreteView;
+export default ClasseView;
