@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 
-import EmbalagemPesquisa from './EmbalagemPesquisa';
-import EmbalagemLista from './EmbalagemLista';
-import EmbalagemForm from './EmbalagemForm';
+import UnidadeMedidaPesquisa from './UnidadeMedidaPesquisa';
+import UnidadeMedidaLista from './UnidadeMedidaLista';
+import UnidadeMedidaForm from './UnidadeMedidaForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-
-class EmbalagemView extends React.Component
+class FreteView extends React.Component
 {
     constructor(props)
     {
@@ -19,10 +18,10 @@ class EmbalagemView extends React.Component
             ,entidadeInicio:_entidade
             ,processando:false
             ,url:{
-                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/Embalagem/pesquisar"
-               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/Embalagem/salvar"
-               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/Embalagem/consultar/"
-               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/Embalagem/excluir/"
+                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/pesquisar"
+               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/salvar"
+               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/consultar/"
+               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/excluir/"
            }
            ,listaAutorizacao:process.env.REACT_APP_FORM_LISTA_AUTORIZACAO
            ,objetoAutorizacao:process.env.REACT_APP_FORM_OBJETO_AUTORIZACAO
@@ -49,13 +48,13 @@ class EmbalagemView extends React.Component
 
 <div class="card">
   <div class="card-header">
-       E M B A L A G E M 
+      U N I D A D E M E D I D A 
   </div>
   <div class="card-body">
 
       <div>  
             {this.state.visao=="pesquisar" ? 
-                <EmbalagemPesquisa 
+                <UnidadeMedidaPesquisa 
                     entidade={this.state.entidadeInicio}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -66,7 +65,7 @@ class EmbalagemView extends React.Component
             }
 
             {this.state.visao=="listar" ? 
-                <EmbalagemLista 
+                <UnidadeMedidaLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -77,7 +76,7 @@ class EmbalagemView extends React.Component
             }
 
             {this.state.visao=="incluir" || this.state.visao=="consultar"  ? 
-                <EmbalagemForm 
+                <UnidadeMedidaForm 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -94,4 +93,4 @@ class EmbalagemView extends React.Component
     }
 }
 
-export default EmbalagemView;
+export default FreteView;
