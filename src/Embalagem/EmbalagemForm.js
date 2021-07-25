@@ -16,6 +16,7 @@ class EmbalagemForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
+                ,capacidade:''
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 

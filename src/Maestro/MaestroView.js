@@ -51,7 +51,7 @@ class MaestroView extends React.Component
                 : "" 
                 }   
 
-                {window.location.pathname=='/UnidadeMedida' ?
+                {window.location.pathname=='/unidademedida' ?
                     <UnidadeMedidaView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}

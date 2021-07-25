@@ -74,7 +74,7 @@ class EmbalagemPesquisa extends React.Component
 
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/pesquisar" + p
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/pesquisar" + p
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
