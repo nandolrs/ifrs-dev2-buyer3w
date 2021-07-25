@@ -267,7 +267,7 @@ MaterialApresentar(entidade)
                 <PesquisaBotoes 
                     listaAutorizacao={this.props.listaAutorizacao}
                     objetoAutorizacao={this.props.objetoAutorizacao}
-                    OnIncluir={() => this.props.OnIncluir()}
+                    OnIncluir={() => null } // this.props.OnIncluir()
                     OnPesquisar={() => this.Pesquisar()}
                 />
 

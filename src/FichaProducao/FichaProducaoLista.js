@@ -32,7 +32,7 @@ class FichaProducaoLista extends React.Component
 
               {this.state.entidade.map( (entidade) =>  
                 <div>
-  <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
+  <div  class="card"  onClick1={(e) => this.props.OnConsultar({id:entidade.id})} >   
     <div class="card-header">
     {entidade.produto.nome}
     </div>
