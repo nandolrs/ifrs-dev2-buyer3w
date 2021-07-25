@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import UnidadeMedidaView from './UnidadeMedidaView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -7,7 +8,7 @@ import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
 
-class ProdutoPesquisa extends React.Component
+class UnidadeMedidaPesquisa extends React.Component
 {
     constructor(props)
     {
@@ -15,6 +16,7 @@ class ProdutoPesquisa extends React.Component
         this.state={
             codigo:0
             ,nome:''
+            ,sigla:''
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             ,lista:null
         };
@@ -46,6 +48,8 @@ class ProdutoPesquisa extends React.Component
 
     Evento(resposta, acao)
     {        
+        debugger;
+
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -66,9 +70,11 @@ class ProdutoPesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
+        debugger;
+
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/pesquisar" + p
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/pesquisar" + p
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -79,6 +85,8 @@ class ProdutoPesquisa extends React.Component
 
     Pesquisou(resposta)
     {
+        debugger;
+
         var retorno = null;
 
         if(resposta.status == 200)
@@ -125,11 +133,18 @@ class ProdutoPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputNome"  
+                    <input type="text" class="form-control" id="inputUf"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}
                             value={this.state.nome}
+                    />
+
+                            <input type="text" class="form-control" id="inputUf"  
+                            aria-describedby="siglaHelp" 
+                            placeHolder="sigla." 
+                            onChange={(o)=>this.setState({sigla:o.target.value})}
+                            value={this.state.sigla}
                     />
 
                     <SisMensagemView
@@ -170,5 +185,5 @@ class ProdutoPesquisa extends React.Component
 }
 
 
-export default ProdutoPesquisa;
+export default UnidadeMedidaPesquisa;
 
