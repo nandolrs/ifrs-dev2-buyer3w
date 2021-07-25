@@ -6,7 +6,7 @@ import ListaBotoes from '../SisPadrao/ListaBotoes'
 
 var matrizSelecionados = [];
 
-class ProdutoLista extends React.Component
+class EmbalagemLista extends React.Component
 {
     constructor(props)
     {
@@ -34,10 +34,11 @@ class ProdutoLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
-    {entidade.nome}
+    {entidade.produto.nome}
     </div>
     <div class="card-body">
-      {entidade.classe.nome}
+      {entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }
+
     </div>
   </div>
   <br/>
@@ -69,5 +70,5 @@ class ProdutoLista extends React.Component
 }
 
 
-export default ProdutoLista;
+export default EmbalagemLista;
 

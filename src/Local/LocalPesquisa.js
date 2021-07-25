@@ -47,8 +47,6 @@ class LocalPesquisa extends React.Component
 
     Evento(resposta, acao)
     {        
-        debugger;
-
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -69,8 +67,6 @@ class LocalPesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
-        debugger;
-
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/pesquisar" + p
@@ -84,8 +80,6 @@ class LocalPesquisa extends React.Component
 
     Pesquisou(resposta)
     {
-        debugger;
-
         var retorno = null;
 
         if(resposta.status == 200)
@@ -132,7 +126,7 @@ class LocalPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputUf"  
+                    <input type="text" class="form-control" id="inputNome"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}

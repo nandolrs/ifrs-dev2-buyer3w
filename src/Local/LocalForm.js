@@ -22,9 +22,7 @@ class LocalForm extends React.Component
             };
         }
         else
-        { 
-            debugger;
-            
+        {             
             this.state={
                 id:this.props.entidade.id
                ,visao:'processando'
@@ -58,8 +56,6 @@ class LocalForm extends React.Component
 
     SisManterExcluir(entidade)
     {
-        debugger;
-
         this.setState({visao:'processando'});
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/excluir/" + entidade.id
@@ -115,31 +111,23 @@ class LocalForm extends React.Component
 
         if(acao=='salvou')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
-            //this.props.OnPesquisar(resposta);
         }
         else if(acao =='consultou')
         {
-            debugger;
 
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
-               ,lista:null
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
         }
         else if(acao =='excluiu')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
-            //this.props.OnPesquisar(resposta);
         }
-   //     this.setState(resposta);
+
     }
 
     SisManterSalvar(entidade)

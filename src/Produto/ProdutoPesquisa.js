@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import ProdutoView from './ProdutoView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -47,8 +46,6 @@ class ProdutoPesquisa extends React.Component
 
     Evento(resposta, acao)
     {        
-        debugger;
-
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -69,8 +66,6 @@ class ProdutoPesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
-        debugger;
-
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/pesquisar" + p
@@ -84,8 +79,6 @@ class ProdutoPesquisa extends React.Component
 
     Pesquisou(resposta)
     {
-        debugger;
-
         var retorno = null;
 
         if(resposta.status == 200)
@@ -132,7 +125,7 @@ class ProdutoPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputUf"  
+                    <input type="text" class="form-control" id="inputNome"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}

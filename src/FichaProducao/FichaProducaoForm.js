@@ -6,7 +6,7 @@ import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class ProdutoForm extends React.Component
+class MaterialForm extends React.Component
 {
     constructor(props)
     {        
@@ -16,10 +16,12 @@ class ProdutoForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
-                ,classeId:0
+                ,produtoId:0
+                ,embalagemId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
-                ,listaBuscou:false
+                ,listaProdutoBuscou:false
+                ,listaEmbalagemBuscou:false
             };
         }
         else
@@ -28,8 +30,9 @@ class ProdutoForm extends React.Component
                 id:this.props.entidade.id
                ,visao:'processando'
                ,mensagens:null
-               ,listaBuscou:false
-           };
+               ,listaProdutoBuscou:false
+               ,listaEmbalagemBuscou:false
+            };
            let entidade = {id:this.props.entidade.id}
 
            this.SisManterConsultar(entidade);
@@ -42,8 +45,9 @@ class ProdutoForm extends React.Component
     {
         let entidade =  {
         id:this.state.id
-        ,nome:this.state.nome
-        ,classe:{id:this.state.classeId}
+        ,nome:'none'
+        ,produto:{id:this.state.produtoId}
+        ,embalagem:{id:this.state.embalagemId}
         };
         this.SisManterSalvar(entidade);
     }
@@ -97,7 +101,7 @@ class ProdutoForm extends React.Component
     {
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -157,7 +161,8 @@ class ProdutoForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
-               ,classeId:resposta.entidade.classe.id
+               ,produtoId:resposta.entidade.produto.id
+               ,embalagemId:resposta.entidade.embalagem.id
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -174,7 +179,10 @@ class ProdutoForm extends React.Component
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/produto/salvar"
+            debugger;
+            let url = process.env.REACT_APP_SERVER_URL + "/api/material/salvar";
+
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/material/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -183,7 +191,7 @@ class ProdutoForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/produto/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/material/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -195,7 +203,7 @@ class ProdutoForm extends React.Component
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -239,16 +247,24 @@ class ProdutoForm extends React.Component
 
     Listar()
     {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/classe/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/listar",window.getCabeca()).then((resposta)=>this.Listou('produto',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/listar",window.getCabeca()).then((resposta)=>this.Listou('embalagem',resposta));
     }
 
     Listou(tipo, resposta)
     {
-        if(tipo=='classe')
+        if(tipo=='produto')
         {
             if(resposta.request.status == 200)
             {
-                this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
+                this.setState({listaProduto:resposta.data.dadosLista, listaProdutoBuscou:true});
+            }
+    
+        }else if(tipo=='embalagem')
+        {
+            if(resposta.request.status == 200)
+            {
+                this.setState({listaEmbalagem:resposta.data.dadosLista, listaEmbalagemBuscou:true});
             }
     
         }
@@ -269,32 +285,50 @@ class ProdutoForm extends React.Component
 
         <div class="form-group">
 
-            <input type="text" class="form-control" id="inputNome"  
-                aria-describedby="nomeHelp" 
-                placeHolder="Informe o nome." 
-                onChange={(o)=>this.setState({nome:o.target.value})}
-                value={this.state.nome}
-            />
-
-            {this.state.listaBuscou==true ?
+            {this.state.listaProdutoBuscou==true ?
                 <select 
                     class="form-control form-control-sm" 
-                    id="InputClasse" 
-                    onChange={(o)=>this.setState({classeId:o.target.value})}
-                    defaultValue={this.state.classeId}
-                    value={this.state.classeId}
+                    id="InputProduto" 
+                    onChange={(o)=>this.setState({produtoId:o.target.value})}
+                    defaultValue={this.state.produtoId}
+                    value={this.state.produtoId}
                 >
             
-                {this.state.lista != null ?
+                {this.state.listaProduto != null ?
 
-                    this.state.lista.map( (entidade) =>
+                    this.state.listaProduto.map( (entidade) =>
                     <option 
                         value={entidade.id} 
                         >{entidade.nome}</option> 
                     )
                 : ""
                 }
-                <option value="0" >Informe a classe</option>
+                <option value="0" >Informe o produto</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
+            {this.state.listaEmbalagemBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputEmbalagem" 
+                    onChange={(o)=>this.setState({embalagemId:o.target.value})}
+                    defaultValue={this.state.embalagemId}
+                    value={this.state.embalagemId}
+                >
+            
+                {this.state.listaEmbalagem != null ?
+
+                    this.state.listaEmbalagem.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome + ' com ' + entidade.capacidade + ' ' + entidade.unidadeMedida.nome}</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe a embalagem</option>
 
                 </select>
                 :
@@ -341,5 +375,5 @@ class ProdutoForm extends React.Component
 }
 
 
-export default ProdutoForm;
+export default MaterialForm;
 

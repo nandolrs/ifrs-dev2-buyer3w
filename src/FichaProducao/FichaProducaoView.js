@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 
-import UnidadeMedidaPesquisa from './UnidadeMedidaPesquisa';
-import UnidadeMedidaLista from './UnidadeMedidaLista';
-import UnidadeMedidaForm from './UnidadeMedidaForm';
+import FichaProducaoPesquisa from './FichaProducaoPesquisa';
+import FichaProducaoLista from './FichaProducaoLista';
+import FichaProducaoForm from './FichaProducaoForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class UnidadeMedidaView extends React.Component
-
+class FreteView extends React.Component
 {
     constructor(props)
     {
@@ -19,10 +18,10 @@ class UnidadeMedidaView extends React.Component
             ,entidadeInicio:_entidade
             ,processando:false
             ,url:{
-                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/pesquisar"
-               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/salvar"
-               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/consultar/"
-               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/excluir/"
+                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/material/pesquisar"
+               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/material/salvar"
+               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/material/consultar/"
+               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/material/excluir/"
            }
            ,listaAutorizacao:process.env.REACT_APP_FORM_LISTA_AUTORIZACAO
            ,objetoAutorizacao:process.env.REACT_APP_FORM_OBJETO_AUTORIZACAO
@@ -49,13 +48,13 @@ class UnidadeMedidaView extends React.Component
 
 <div class="card">
   <div class="card-header">
-      U N I D A D E M E D I D A 
+      F I CH A  D E  P R O D U Ç Ã O (RECEITA)
   </div>
   <div class="card-body">
 
       <div>  
             {this.state.visao=="pesquisar" ? 
-                <UnidadeMedidaPesquisa 
+                <FichaProducaoPesquisa 
                     entidade={this.state.entidadeInicio}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -66,7 +65,7 @@ class UnidadeMedidaView extends React.Component
             }
 
             {this.state.visao=="listar" ? 
-                <UnidadeMedidaLista 
+                <FichaProducaoLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -77,7 +76,7 @@ class UnidadeMedidaView extends React.Component
             }
 
             {this.state.visao=="incluir" || this.state.visao=="consultar"  ? 
-                <UnidadeMedidaForm 
+                <FichaProducaoForm 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -94,6 +93,4 @@ class UnidadeMedidaView extends React.Component
     }
 }
 
-
-export default UnidadeMedidaView;
-
+export default FreteView;

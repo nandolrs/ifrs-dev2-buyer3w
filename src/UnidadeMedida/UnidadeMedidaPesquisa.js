@@ -74,7 +74,9 @@ class UnidadeMedidaPesquisa extends React.Component
 
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
+
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/unidademedida/pesquisar" + p
+
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
