@@ -6,7 +6,7 @@ import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class EmbalagemForm extends React.Component
+class MovimentoForm extends React.Component
 {
     constructor(props)
     {        
@@ -16,26 +16,26 @@ class EmbalagemForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
-                ,unidademedidaId:0
+                ,classeId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
-
+                ,listaBuscou:false
             };
         }
         else
-        { 
-            debugger;
-            
+        {             
             this.state={
                 id:this.props.entidade.id
                ,visao:'processando'
                ,mensagens:null
-
+               ,listaBuscou:false
            };
            let entidade = {id:this.props.entidade.id}
 
            this.SisManterConsultar(entidade);
         }
+
+        this.Listar();
     }
         
     Salvar()
@@ -43,9 +43,45 @@ class EmbalagemForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
+        ,classe:{id:this.state.classeId}
         };
         this.SisManterSalvar(entidade);
     }
+
+    
+    Salvou(resposta)
+    {        
+        var retorno = null;
+
+        if(resposta.request.status == 200)
+        {
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"mensagem.sucesso"
+                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
+                };
+            }
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
+            };
+        }
+
+        this.Evento(retorno, 'salvou');
+
+    }
+
 
     Excluir()
     {
@@ -59,11 +95,9 @@ class EmbalagemForm extends React.Component
 
     SisManterExcluir(entidade)
     {
-        debugger;
-
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -116,27 +150,20 @@ class EmbalagemForm extends React.Component
 
         if(acao=='salvou')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
         else if(acao =='consultou')
         {
-            debugger;
-
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
-               ,unidademedidaId:resposta.entidade.unidademedida.id
-               ,lista:null
+               ,classeId:resposta.entidade.classe.id
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
         }
         else if(acao =='excluiu')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
     }
@@ -147,7 +174,7 @@ class EmbalagemForm extends React.Component
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/movimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -156,7 +183,7 @@ class EmbalagemForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/movimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -164,45 +191,11 @@ class EmbalagemForm extends React.Component
             .catch((resposta) => this.Salvou(resposta));
         }
     }
-
-    Salvou(resposta)
-    {
-        var retorno = null;
-
-        if(resposta.request.status == 200)
-        {
-            var erro = resposta.data.erro;
-            if(erro != null)
-            {
-                var itens = erro.itens;
-                var msg = itens[0].mensagem;
-                retorno = {visao:"mensagem.erro"
-                  , mensagens:erro.itens
-                };
-            }
-            else
-            {
-                retorno = {visao:"mensagem.sucesso"
-                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
-                };
-            }
-        }
-        else
-        {
-            retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
-            };
-        }
-
-        this.Evento(retorno, 'salvou');
-
-    }
-
 
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -243,14 +236,15 @@ class EmbalagemForm extends React.Component
 
         this.Evento(retorno, 'consultou');
     }
+
     Listar()
     {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/unidademedida/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/classe/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
     }
 
     Listou(tipo, resposta)
     {
-        if(tipo=='unidademedida')
+        if(tipo=='classe')
         {
             if(resposta.request.status == 200)
             {
@@ -281,6 +275,32 @@ class EmbalagemForm extends React.Component
                 onChange={(o)=>this.setState({nome:o.target.value})}
                 value={this.state.nome}
             />
+
+            {this.state.listaBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="Inputunidademedida" 
+                    onChange={(o)=>this.setState({unidademedidaId:o.target.value})}
+                    defaultValue={this.state.unidademedidaId}
+                    value={this.state.unidademedidaId}
+                >
+            
+                {this.state.lista != null ?
+
+                    this.state.lista.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome}</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe a unidademedida</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
     
             <SisMensagemView
                 visao={this.state.visao}
@@ -321,5 +341,5 @@ class EmbalagemForm extends React.Component
 }
 
 
-export default EmbalagemForm;
+export default MovimentoForm;
 
