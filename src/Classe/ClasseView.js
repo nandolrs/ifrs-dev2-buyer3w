@@ -48,7 +48,7 @@ class ClasseView extends React.Component
 
 <div class="card">
   <div class="card-header">
-      C L A S S E
+      C A T E G O R I A
   </div>
   <div class="card-body">
 

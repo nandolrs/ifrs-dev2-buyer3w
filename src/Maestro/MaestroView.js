@@ -6,6 +6,7 @@ import MaterialView from '../Material/MaterialView';
 import EmbalagemView from '../Embalagem/EmbalagemView';
 import UnidadeMedidaView from '../UnidadeMedida/UnidadeMedidaView';
 import FichaProducaoView from '../FichaProducao/FichaProducaoView';
+import UsuarioView from '../Usuario/UsuarioView';
 
 import { isNumericLiteral } from '@babel/types';
 import axios from 'axios';
@@ -104,6 +105,18 @@ class MaestroView extends React.Component
 
                 {window.location.pathname=='/fichaProducao' ?
                     <FichaProducaoView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
+
+                {window.location.pathname=='/usuario' ?
+                    <UsuarioView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
                         visao = {this.state.visao} 

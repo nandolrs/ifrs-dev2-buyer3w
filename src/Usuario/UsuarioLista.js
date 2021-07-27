@@ -6,7 +6,7 @@ import ListaBotoes from '../SisPadrao/ListaBotoes'
 
 var matrizSelecionados = [];
 
-class EmbalagemLista extends React.Component
+class UsuarioLista extends React.Component
 {
     constructor(props)
     {
@@ -37,8 +37,6 @@ class EmbalagemLista extends React.Component
     {entidade.nome}
     </div>
     <div class="card-body">
-    {' com ' + entidade.capacidade + ' ' + entidade.unidadeMedida.nome }
-
     </div>
   </div>
   <br/>
@@ -70,5 +68,5 @@ class EmbalagemLista extends React.Component
 }
 
 
-export default EmbalagemLista;
+export default UsuarioLista;
 
