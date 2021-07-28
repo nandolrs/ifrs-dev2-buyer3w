@@ -6,7 +6,7 @@ import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class ProdutoForm extends React.Component
+class UsuarioForm extends React.Component
 {
     constructor(props)
     {        
@@ -16,10 +16,11 @@ class ProdutoForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
-                ,classeId:0
+                ,email:''
+                ,senha:''
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
-                ,listaBuscou:false
+
             };
         }
         else
@@ -28,14 +29,12 @@ class ProdutoForm extends React.Component
                 id:this.props.entidade.id
                ,visao:'processando'
                ,mensagens:null
-               ,listaBuscou:false
+
            };
            let entidade = {id:this.props.entidade.id}
 
            this.SisManterConsultar(entidade);
         }
-
-        this.Listar();
     }
         
     Salvar()
@@ -43,45 +42,11 @@ class ProdutoForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
-        ,classe:{id:this.state.classeId}
+        ,email:this.state.email
+        ,senha:this.state.senha
         };
         this.SisManterSalvar(entidade);
     }
-
-    
-    Salvou(resposta)
-    {        
-        var retorno = null;
-
-        if(resposta.request.status == 200)
-        {
-            var erro = resposta.data.erro;
-            if(erro != null)
-            {
-                var itens = erro.itens;
-                var msg = itens[0].mensagem;
-                retorno = {visao:"mensagem.erro"
-                  , mensagens:erro.itens
-                };
-            }
-            else
-            {
-                retorno = {visao:"mensagem.sucesso"
-                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
-                };
-            }
-        }
-        else
-        {
-            retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
-            };
-        }
-
-        this.Evento(retorno, 'salvou');
-
-    }
-
 
     Excluir()
     {
@@ -97,7 +62,7 @@ class ProdutoForm extends React.Component
     {
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -157,7 +122,8 @@ class ProdutoForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
-               ,classeId:resposta.entidade.classe.id
+               ,email:resposta.entidade.email
+               ,senha:resposta.entidade.senha
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -169,12 +135,15 @@ class ProdutoForm extends React.Component
     }
 
     SisManterSalvar(entidade)
+    
     {
+    debugger;
+
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/produto/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -183,7 +152,7 @@ class ProdutoForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/produto/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -192,10 +161,45 @@ class ProdutoForm extends React.Component
         }
     }
 
+    Salvou(resposta)
+    {
+        debugger;
+        var retorno = null;
+
+        if(resposta.request.status == 200)
+        {
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"mensagem.sucesso"
+                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
+                };
+            }
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
+            };
+        }
+
+        this.Evento(retorno, 'salvou');
+
+    }
+
+
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -234,24 +238,9 @@ class ProdutoForm extends React.Component
             };
         }
 
+
+        //this.props.OnEvento(retorno, 'consultou');
         this.Evento(retorno, 'consultou');
-    }
-
-    Listar()
-    {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/classe/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
-    }
-
-    Listou(tipo, resposta)
-    {
-        if(tipo=='classe')
-        {
-            if(resposta.request.status == 200)
-            {
-                this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
-            }
-    
-        }
     }
 
 
@@ -275,33 +264,21 @@ class ProdutoForm extends React.Component
                 onChange={(o)=>this.setState({nome:o.target.value})}
                 value={this.state.nome}
             />
-
-            {this.state.listaBuscou==true ?
-                <select 
-                    class="form-control form-control-sm" 
-                    id="InputClasse" 
-                    onChange={(o)=>this.setState({classeId:o.target.value})}
-                    defaultValue={this.state.classeId}
-                    value={this.state.classeId}
-                >
-            
-                {this.state.lista != null ?
-
-                    this.state.lista.map( (entidade) =>
-                    <option 
-                        value={entidade.id} 
-                        >{entidade.nome}</option> 
-                    )
-                : ""
-                }
-                <option value="0" >Informe a classe</option>
-
-                </select>
-                :
-                <div></div>
-            }
-
     
+            <input type="text" class="form-control" id="inputEmail"  
+                aria-describedby="emailHelp" 
+                placeHolder="Informe o email." 
+                onChange={(o)=>this.setState({email:o.target.value})}
+                value={this.state.email}
+            />
+
+            <input type="text" class="form-control" id="inputSenha"  
+                aria-describedby="senhaHelp" 
+                placeHolder="Informe a senha." 
+                onChange={(o)=>this.setState({senha:o.target.value})}
+                value={this.state.senha}
+            />
+            
             <SisMensagemView
                 visao={this.state.visao}
                 mensagens={this.state.mensagens}
@@ -341,5 +318,5 @@ class ProdutoForm extends React.Component
 }
 
 
-export default ProdutoForm;
+export default UsuarioForm;
 

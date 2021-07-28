@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import UsuarioView from './UsuarioView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -7,14 +8,15 @@ import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
 
-class ProdutoPesquisa extends React.Component
+class UsuarioPesquisa extends React.Component
 {
     constructor(props)
     {
         super(props);
         this.state={
-            codigo:0
+            id:0
             ,nome:''
+            ,email:''
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             ,lista:null
         };
@@ -38,6 +40,8 @@ class ProdutoPesquisa extends React.Component
         var entidade={codigo:0
             ,nome:this.state.nome
             ,p:_p
+
+        
         };
 
         this.SisManterPesquisar(entidade);
@@ -68,7 +72,7 @@ class ProdutoPesquisa extends React.Component
     {
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/produto/pesquisar" + p
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/pesquisar" + p
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -125,11 +129,18 @@ class ProdutoPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputNome"  
+                    <input type="text" class="form-control" id="inputUf"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}
                             value={this.state.nome}
+                    />
+
+                    <input type="text" class="form-control" id="inputUf"  
+                            aria-describedby="emailHelp" 
+                            placeHolder="Email." 
+                            onChange={(o)=>this.setState({email:o.target.value})}
+                            value={this.state.email}
                     />
 
                     <SisMensagemView
@@ -170,5 +181,5 @@ class ProdutoPesquisa extends React.Component
 }
 
 
-export default ProdutoPesquisa;
+export default UsuarioPesquisa;
 
