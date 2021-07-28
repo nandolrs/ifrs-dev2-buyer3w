@@ -16,6 +16,7 @@ class EmbalagemForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
+                ,capacidade:''
                 ,unidademedidaId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
@@ -43,6 +44,7 @@ class EmbalagemForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
+        ,capacidade:this.state.capacidade
         };
         this.SisManterSalvar(entidade);
     }
@@ -127,7 +129,8 @@ class EmbalagemForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
-               ,unidademedidaId:resposta.entidade.unidademedida.id
+               ,capacidade:resposta.entidade.capacidade
+               ,unidademedidaId:resposta.entidade.unidadeMedida.id
                ,lista:null
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
@@ -143,6 +146,7 @@ class EmbalagemForm extends React.Component
 
     SisManterSalvar(entidade)
     {
+        debugger;
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
@@ -167,6 +171,7 @@ class EmbalagemForm extends React.Component
 
     Salvou(resposta)
     {
+        debugger;
         var retorno = null;
 
         if(resposta.request.status == 200)
@@ -201,7 +206,7 @@ class EmbalagemForm extends React.Component
 
     SisManterConsultar(entidade)
     {
-
+        debugger;
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/consultar/" + entidade.id
             ,window.getCabeca()
             )
@@ -212,7 +217,7 @@ class EmbalagemForm extends React.Component
     Consultou(resposta)
     {
         var retorno = null;
-
+        debugger;
         if(resposta.status == 200)
         {   
             var erro = resposta.data.erro;
@@ -281,6 +286,37 @@ class EmbalagemForm extends React.Component
                 onChange={(o)=>this.setState({nome:o.target.value})}
                 value={this.state.nome}
             />
+            <input type="text" class="form-control" id="inputCapacidade"  
+                aria-describedby="capacidadeHelp" 
+                placeHolder="Informe o capacidade." 
+                onChange={(o)=>this.setState({capacidade:o.target.value})}
+                value={this.state.capacidade}
+            />
+
+            {this.state.listaBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputUnidadeMedida" 
+                    onChange={(o)=>this.setState({unidademedidaId:o.target.value})}
+                    defaultValue={this.state.unidademedidaId}
+                    value={this.state.unidademedidaId}
+                >
+            
+                {this.state.lista != null ?
+
+                    this.state.lista.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome + " "+ entidade.capacidade }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe a unidade de medida</option>
+
+                </select>
+                :
+                <div></div>
+            }
     
             <SisMensagemView
                 visao={this.state.visao}
