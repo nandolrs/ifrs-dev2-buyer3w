@@ -34,7 +34,7 @@ class EmbalagemLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
-    {entidade.nome}
+    {entidade.nome + "  " + entidade.capacidade}
     </div>
     <div class="card-body">
     </div>

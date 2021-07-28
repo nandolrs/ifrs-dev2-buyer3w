@@ -34,7 +34,7 @@ class UnidadeMedidaLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
-    {entidade.nome}
+    {entidade.nome + " "+  entidade.sigla }
     </div>
     <div class="card-body">
     </div>

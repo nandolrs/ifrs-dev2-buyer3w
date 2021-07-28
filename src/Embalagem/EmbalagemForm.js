@@ -63,7 +63,7 @@ class EmbalagemForm extends React.Component
 
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -147,7 +147,7 @@ class EmbalagemForm extends React.Component
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/embalagem/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -156,7 +156,7 @@ class EmbalagemForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/embalagem/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -202,7 +202,7 @@ class EmbalagemForm extends React.Component
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/Embalagem/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))

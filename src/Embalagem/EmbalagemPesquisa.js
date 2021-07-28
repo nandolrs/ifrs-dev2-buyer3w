@@ -133,14 +133,14 @@ class EmbalagemPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputUf"  
+                    <input type="text" class="form-control" id="inputNome"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}
                             value={this.state.nome}
                     />
 
-                    <input type="text" class="form-control" id="inputUf"  
+                    <input type="text" class="form-control" id="inputCapacidade"  
                             aria-describedby="capacidadeHelp" 
                             placeHolder="capacidade." 
                             onChange={(o)=>this.setState({capacidade:o.target.value})}
