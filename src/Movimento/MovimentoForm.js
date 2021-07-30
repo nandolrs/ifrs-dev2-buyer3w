@@ -15,26 +15,32 @@ class MovimentoForm extends React.Component
         {
             this.state={
                  id:0
-                ,nome:''
-                ,classeId:0
+                 ,nome:''
+                 ,dataMovimento:''
+                 ,quantidade:''
+                 ,valorUnitario:''
+                 ,valorTotal:''
+                 ,materialId:0
+                 ,tipoId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
-                ,listaBuscou:false
+
             };
         }
         else
-        {             
+        { 
+            debugger;
+            
             this.state={
                 id:this.props.entidade.id
                ,visao:'processando'
                ,mensagens:null
-               ,listaBuscou:false
+
            };
            let entidade = {id:this.props.entidade.id}
 
            this.SisManterConsultar(entidade);
         }
-
         this.Listar();
     }
         
@@ -43,45 +49,15 @@ class MovimentoForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
-        ,classe:{id:this.state.classeId}
+        ,dataMovimento:this.state.dataMovimento
+        ,quantidade:this.state.quantidade
+        ,valorUnitario:this.state.valorUnitario
+        ,valorTotal:this.state.valorTotal
+        ,tipo:this.state.tipoId
+        ,material:{id:this.state.materialId}
         };
         this.SisManterSalvar(entidade);
     }
-
-    
-    Salvou(resposta)
-    {        
-        var retorno = null;
-
-        if(resposta.request.status == 200)
-        {
-            var erro = resposta.data.erro;
-            if(erro != null)
-            {
-                var itens = erro.itens;
-                var msg = itens[0].mensagem;
-                retorno = {visao:"mensagem.erro"
-                  , mensagens:erro.itens
-                };
-            }
-            else
-            {
-                retorno = {visao:"mensagem.sucesso"
-                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
-                };
-            }
-        }
-        else
-        {
-            retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
-            };
-        }
-
-        this.Evento(retorno, 'salvou');
-
-    }
-
 
     Excluir()
     {
@@ -95,6 +71,8 @@ class MovimentoForm extends React.Component
 
     SisManterExcluir(entidade)
     {
+        debugger;
+
         this.setState({visao:'processando'});
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/excluir/" + entidade.id
@@ -150,26 +128,38 @@ class MovimentoForm extends React.Component
 
         if(acao=='salvou')
         {
+            debugger;
+
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
         else if(acao =='consultou')
         {
+            debugger;
+
             let estado={
                 id:resposta.entidade.id
-               ,nome:resposta.entidade.nome
-               ,classeId:resposta.entidade.classe.id
+                ,nome:resposta.entidade.nome
+               ,dataMovimento:resposta.entidade.dataMovimento
+               ,quantidade:resposta.entidade.quantidade
+               ,valorUnitario:resposta.entidade.valorUnitario
+               ,valorTotal:resposta.entidade.valorTotal
+               ,materialId:resposta.entidade.material.id
+               ,tipoId:resposta.entidade.tipo
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
         }
         else if(acao =='excluiu')
         {
+            debugger;
+
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
     }
 
     SisManterSalvar(entidade)
     {
+        debugger;
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
@@ -192,9 +182,44 @@ class MovimentoForm extends React.Component
         }
     }
 
+    Salvou(resposta)
+    {
+        debugger;
+        var retorno = null;
+
+        if(resposta.request.status == 200)
+        {
+            var erro = resposta.data.erro;
+            if(erro != null)
+            {
+                var itens = erro.itens;
+                var msg = itens[0].mensagem;
+                retorno = {visao:"mensagem.erro"
+                  , mensagens:erro.itens
+                };
+            }
+            else
+            {
+                retorno = {visao:"mensagem.sucesso"
+                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
+                };
+            }
+        }
+        else
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
+            };
+        }
+
+        this.Evento(retorno, 'salvou');
+
+    }
+
+
     SisManterConsultar(entidade)
     {
-
+        debugger;
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/consultar/" + entidade.id
             ,window.getCabeca()
             )
@@ -205,7 +230,7 @@ class MovimentoForm extends React.Component
     Consultou(resposta)
     {
         var retorno = null;
-
+        debugger;
         if(resposta.status == 200)
         {   
             var erro = resposta.data.erro;
@@ -236,15 +261,14 @@ class MovimentoForm extends React.Component
 
         this.Evento(retorno, 'consultou');
     }
-
     Listar()
     {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/classe/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
     }
 
     Listou(tipo, resposta)
     {
-        if(tipo=='classe')
+        if(tipo=='material')
         {
             if(resposta.request.status == 200)
             {
@@ -269,20 +293,72 @@ class MovimentoForm extends React.Component
 
         <div class="form-group">
 
-            <input type="text" class="form-control" id="inputNome"  
-                aria-describedby="nomeHelp" 
-                placeHolder="Informe o nome." 
-                onChange={(o)=>this.setState({nome:o.target.value})}
-                value={this.state.nome}
-            />
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputTipo" 
+                    onChange={(o)=>this.setState({tipoId:o.target.value})}
+                    defaultValue={this.state.tipoId}
+                    value={this.state.tipoId}
+                >         
+
+                    <option 
+                        value='1'
+                        >ENTRADA</option> 
+                    <option 
+                        value='2'
+                        >SAIDA</option> 
+                    <option 
+                        value='3'
+                        >COMPRA</option> 
+                    <option 
+                        value='4'
+                        >COTACAO</option> 
+                
+                
+                <option value="0" >Informe o tipo</option>
+
+                </select>
+                
+               
+            
+
+        
+
+                <input type="date" class="form-control" id="inputdataMovimento"  
+                            aria-describedby="dataMovimentoHelp" 
+                            placeHolder="dataMovimento." 
+                            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
+                            value={this.state.dataMovimento}
+                    />
+
+                        <input type="text" class="form-control" id="inputquantidade"  
+                            aria-describedby="quantidadeHelp" 
+                            placeHolder="quantidade." 
+                            onChange={(o)=>this.setState({quantidade:o.target.value})}
+                            value={this.state.quantidade}
+                    />
+                        <input type="text" class="form-control" id="inputvalorUnitario "  
+                            aria-describedby="valorUnitario Help" 
+                            placeHolder="valorUnitario ." 
+                            onChange={(o)=>this.setState({valorUnitario :o.target.value})}
+                            value={this.state.valorUnitario }
+                    />
+
+                        <input type="text" class="form-control" id="inputvalorTotal "  
+                            aria-describedby="valorTotal Help" 
+                            placeHolder="valorTotal ." 
+                            onChange={(o)=>this.setState({valorTotal :o.target.value})}
+                            value={this.state.valorTotal }
+                    />      
+                    
 
             {this.state.listaBuscou==true ?
                 <select 
                     class="form-control form-control-sm" 
-                    id="Inputunidademedida" 
-                    onChange={(o)=>this.setState({unidademedidaId:o.target.value})}
-                    defaultValue={this.state.unidademedidaId}
-                    value={this.state.unidademedidaId}
+                    id="Inputmaterial" 
+                    onChange={(o)=>this.setState({materialId:o.target.value})}
+                    defaultValue={this.state.materialId}
+                    value={this.state.materialId}
                 >
             
                 {this.state.lista != null ?
@@ -290,16 +366,17 @@ class MovimentoForm extends React.Component
                     this.state.lista.map( (entidade) =>
                     <option 
                         value={entidade.id} 
-                        >{entidade.nome}</option> 
+                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
                     )
                 : ""
                 }
-                <option value="0" >Informe a unidademedida</option>
+                <option value="0" >Informe o material</option>
 
                 </select>
                 :
                 <div></div>
             }
+
 
     
             <SisMensagemView

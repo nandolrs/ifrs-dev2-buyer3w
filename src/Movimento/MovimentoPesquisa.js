@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import MovimentoView from './MovimentoView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -18,28 +19,31 @@ class MovimentoPesquisa extends React.Component
             ,quantidade:''
             ,valorUnitario:''
             ,valorTotal:''
+            ,materialId:0
+             ,tipoId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
-            ,lista:null
+    
         };
+        this.Listar();
     }
 
     Pesquisar()
     {
         this.setState({visao:'processando'});
 
-        let _p = 'nome=';
-        if(this.state.nome != '')
+        let _p = 'materialId=';
+        if(this.state.materialId != 0)
         {
-            _p = _p+ this.state.nome;
+            _p = _p+ this.state.materialId;
         }
         else
         {
-            _p = _p+ '';
+            _p = _p+ '0';
 
         }
+        
 
         var entidade={codigo:0
-            ,nome:this.state.nome
             ,p:_p
         };
 
@@ -49,6 +53,8 @@ class MovimentoPesquisa extends React.Component
 
     Evento(resposta, acao)
     {        
+        debugger;
+
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -69,6 +75,8 @@ class MovimentoPesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
+        debugger;
+
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p
@@ -82,6 +90,8 @@ class MovimentoPesquisa extends React.Component
 
     Pesquisou(resposta)
     {
+        debugger;
+
         var retorno = null;
 
         if(resposta.status == 200)
@@ -114,6 +124,23 @@ class MovimentoPesquisa extends React.Component
         this.Evento(retorno, 'pesquisou');
     }
 
+    Listar()
+    {
+    
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
+    }
+
+    Listou(tipo, resposta)
+    {
+        if(tipo=='material')
+        {
+            if(resposta.request.status == 200)
+            {
+                this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
+            }
+    
+        }
+    }
     render()
     {
         return(
@@ -128,7 +155,58 @@ class MovimentoPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputdataMovimento"  
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputTipo" 
+                    onChange={(o)=>this.setState({tipoId:o.target.value})}
+                    defaultValue={this.state.tipoId}
+                    value={this.state.tipoId}
+                >         
+
+                    <option 
+                        value='1'
+                        >ENTRADA</option> 
+                    <option 
+                        value='2'
+                        >SAIDA</option> 
+                    <option 
+                        value='3'
+                        >COMPRA</option> 
+                    <option 
+                        value='4'
+                        >COTACAO</option> 
+                
+                
+                <option value="0" >Informe o tipo</option>
+
+                </select>
+
+                {this.state.listaBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="Inputmaterial" 
+                    onChange={(o)=>this.setState({materialId:o.target.value})}
+                    defaultValue={this.state.materialId}
+                    value={this.state.materialId}
+                >
+            
+                {this.state.lista != null ?
+
+                    this.state.lista.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe o material</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
+                <input type="text" class="form-control" id="inputdataMovimento"  
                             aria-describedby="dataMovimentoHelp" 
                             placeHolder="dataMovimento." 
                             onChange={(o)=>this.setState({dataMovimento:o.target.value})}
@@ -154,9 +232,7 @@ class MovimentoPesquisa extends React.Component
                             onChange={(o)=>this.setState({valorTotal :o.target.value})}
                             value={this.state.valorTotal }
                     />      
-
-
-
+                    
                     <SisMensagemView
                         visao={this.state.visao}
                         mensagens={this.state.mensagens}

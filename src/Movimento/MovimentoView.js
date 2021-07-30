@@ -7,6 +7,7 @@ import MovimentoForm from './MovimentoForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
+
 class MovimentoView extends React.Component
 {
     constructor(props)
@@ -18,10 +19,10 @@ class MovimentoView extends React.Component
             ,entidadeInicio:_entidade
             ,processando:false
             ,url:{
-                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar"
-               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/movimento/salvar"
-               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/movimento/consultar/"
-               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/movimento/excluir/"
+                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/pesquisar"
+               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/salvar"
+               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/consultar/"
+               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/Movimento/excluir/"
            }
            ,listaAutorizacao:process.env.REACT_APP_FORM_LISTA_AUTORIZACAO
            ,objetoAutorizacao:process.env.REACT_APP_FORM_OBJETO_AUTORIZACAO
@@ -48,13 +49,13 @@ class MovimentoView extends React.Component
 
 <div class="card">
   <div class="card-header">
-      M O V I M E N T O
+       M O V I M E N T O 
   </div>
   <div class="card-body">
 
       <div>  
             {this.state.visao=="pesquisar" ? 
-                <movimentoPesquisa 
+                <MovimentoPesquisa 
                     entidade={this.state.entidadeInicio}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -65,7 +66,7 @@ class MovimentoView extends React.Component
             }
 
             {this.state.visao=="listar" ? 
-                <movimentoLista 
+                <MovimentoLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -76,7 +77,7 @@ class MovimentoView extends React.Component
             }
 
             {this.state.visao=="incluir" || this.state.visao=="consultar"  ? 
-                <movimentoForm 
+                <MovimentoForm 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -88,8 +89,7 @@ class MovimentoView extends React.Component
 
   </div>
 </div>
-
-            );
+         );
     }
 }
 
