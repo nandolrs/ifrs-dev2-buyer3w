@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 
-import UnidadeMedidaPesquisa from './UnidadeMedidaPesquisa';
-import UnidadeMedidaLista from './UnidadeMedidaLista';
-import UnidadeMedidaForm from './UnidadeMedidaForm';
+import MovimentoPesquisa from './MovimentoPesquisa';
+import MovimentoLista from './MovimentoLista';
+import MovimentoForm from './MovimentoForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class UnidadeMedidaView extends React.Component
 
+class MovimentoView extends React.Component
 {
     constructor(props)
     {
@@ -19,10 +19,10 @@ class UnidadeMedidaView extends React.Component
             ,entidadeInicio:_entidade
             ,processando:false
             ,url:{
-                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/pesquisar"
-               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/salvar"
-               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/consultar/"
-               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/excluir/"
+                pesquisar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/pesquisar"
+               ,salvar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/salvar"
+               ,consultar:process.env.REACT_APP_SERVER_URL + "/api/Movimento/consultar/"
+               ,excluir:process.env.REACT_APP_SERVER_URL + "/api/Movimento/excluir/"
            }
            ,listaAutorizacao:process.env.REACT_APP_FORM_LISTA_AUTORIZACAO
            ,objetoAutorizacao:process.env.REACT_APP_FORM_OBJETO_AUTORIZACAO
@@ -49,13 +49,13 @@ class UnidadeMedidaView extends React.Component
 
 <div class="card">
   <div class="card-header">
-      U N I D A D E - D E - M E D I D A 
+       M O V I M E N T O 
   </div>
   <div class="card-body">
 
       <div>  
             {this.state.visao=="pesquisar" ? 
-                <UnidadeMedidaPesquisa 
+                <MovimentoPesquisa 
                     entidade={this.state.entidadeInicio}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -66,7 +66,7 @@ class UnidadeMedidaView extends React.Component
             }
 
             {this.state.visao=="listar" ? 
-                <UnidadeMedidaLista 
+                <MovimentoLista 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -77,7 +77,7 @@ class UnidadeMedidaView extends React.Component
             }
 
             {this.state.visao=="incluir" || this.state.visao=="consultar"  ? 
-                <UnidadeMedidaForm 
+                <MovimentoForm 
                     entidade={this.state.entidade}
                     listaAutorizacao={this.state.listaAutorizacao}
                     objetoAutorizacao={this.state.objetoAutorizacao}
@@ -89,11 +89,8 @@ class UnidadeMedidaView extends React.Component
 
   </div>
 </div>
-
-            );
+         );
     }
 }
 
-
-export default UnidadeMedidaView;
-
+export default MovimentoView;

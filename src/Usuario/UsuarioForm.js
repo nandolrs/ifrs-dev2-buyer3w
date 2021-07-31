@@ -42,6 +42,8 @@ class UsuarioForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
+        ,email:this.state.email
+        ,senha:this.state.senha
         };
         this.SisManterSalvar(entidade);
     }
@@ -120,6 +122,8 @@ class UsuarioForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
+               ,email:resposta.entidade.email
+               ,senha:resposta.entidade.senha
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -130,8 +134,10 @@ class UsuarioForm extends React.Component
         }
     }
 
-    SisManterSalvar(entidade)
+    SisManterSalvar(entidade)    
     {
+    debugger;
+
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
@@ -156,6 +162,7 @@ class UsuarioForm extends React.Component
 
     Salvou(resposta)
     {
+        debugger;
         var retorno = null;
 
         if(resposta.request.status == 200)

@@ -2,12 +2,12 @@ import React from 'react';
 import LocalView from '../Local/LocalView';
 import ClasseView from '../Classe/ClasseView';
 import ProdutoView from '../Produto/ProdutoView';
-import MaterialView from '../Material/MaterialView';
 import EmbalagemView from '../Embalagem/EmbalagemView';
 import UnidadeMedidaView from '../UnidadeMedida/UnidadeMedidaView';
 import FichaProducaoView from '../FichaProducao/FichaProducaoView';
 import UsuarioView from '../Usuario/UsuarioView';
 import EstabelecimentoView from '../Estabelecimento/EstabelecimentoView';
+import MovimentoView from '../Movimento/MovimentoView';
 
 import { isNumericLiteral } from '@babel/types';
 import axios from 'axios';
@@ -43,6 +43,42 @@ class MaestroView extends React.Component
                 : "" 
                 }
 
+                    {window.location.pathname=='/embalagem' ?
+                    <EmbalagemView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
+
+                    {window.location.pathname=='/movimento' ?
+                    <MovimentoView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
+
+                {window.location.pathname=='/unidademedida' ?
+                    <UnidadeMedidaView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
+
                 {window.location.pathname=='/classe' ?
                     <ClasseView 
                         autenticado = {this.state.autenticado}
@@ -66,55 +102,6 @@ class MaestroView extends React.Component
                     />
                 : "" 
                 }
-
-                {window.location.pathname=='/material' ?
-                    <MaterialView 
-                        autenticado = {this.state.autenticado}
-                        listaAutorizacao={this.state.listaAutorizacao}
-                        visao = {this.state.visao} 
-                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
-                        OnIniciar={()=>this.Iniciar()}
-                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-                    />
-                : "" 
-                }
-
-                {window.location.pathname=='/embalagem' ?
-                    <EmbalagemView 
-                        autenticado = {this.state.autenticado}
-                        listaAutorizacao={this.state.listaAutorizacao}
-                        visao = {this.state.visao} 
-                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
-                        OnIniciar={()=>this.Iniciar()}
-                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-                    />
-                : "" 
-                }   
-
-
-                {window.location.pathname=='/unidadeMedida' ?
-                    <UnidadeMedidaView 
-                        autenticado = {this.state.autenticado}
-                        listaAutorizacao={this.state.listaAutorizacao}
-                        visao = {this.state.visao} 
-                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
-                        OnIniciar={()=>this.Iniciar()}
-                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-                    />
-                : "" 
-                }   
-
-                {window.location.pathname=='/fichaProducao' ?
-                    <FichaProducaoView 
-                        autenticado = {this.state.autenticado}
-                        listaAutorizacao={this.state.listaAutorizacao}
-                        visao = {this.state.visao} 
-                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
-                        OnIniciar={()=>this.Iniciar()}
-                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-                    />
-                : "" 
-                }   
 
                 {window.location.pathname=='/usuario' ?
                     <UsuarioView 

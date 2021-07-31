@@ -6,7 +6,7 @@ import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class EmbalagemForm extends React.Component
+class MovimentoForm extends React.Component
 {
     constructor(props)
     {        
@@ -15,9 +15,13 @@ class EmbalagemForm extends React.Component
         {
             this.state={
                  id:0
-                ,nome:''
-                ,capacidade:''
-                ,unidademedidaId:0
+                 ,nome:''
+                 ,dataMovimento:''
+                 ,quantidade:''
+                 ,valorUnitario:''
+                 ,valorTotal:''
+                 ,materialId:0
+                 ,tipoId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
@@ -37,6 +41,7 @@ class EmbalagemForm extends React.Component
 
            this.SisManterConsultar(entidade);
         }
+        this.Listar();
     }
         
     Salvar()
@@ -44,7 +49,12 @@ class EmbalagemForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
-        ,capacidade:this.state.capacidade
+        ,dataMovimento:this.state.dataMovimento
+        ,quantidade:this.state.quantidade
+        ,valorUnitario:this.state.valorUnitario
+        ,valorTotal:this.state.valorTotal
+        ,tipo:this.state.tipoId
+        ,material:{id:this.state.materialId}
         };
         this.SisManterSalvar(entidade);
     }
@@ -65,7 +75,7 @@ class EmbalagemForm extends React.Component
 
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -128,10 +138,13 @@ class EmbalagemForm extends React.Component
 
             let estado={
                 id:resposta.entidade.id
-               ,nome:resposta.entidade.nome
-               ,capacidade:resposta.entidade.capacidade
-               ,unidademedidaId:resposta.entidade.unidadeMedida.id
-               ,lista:null
+                ,nome:resposta.entidade.nome
+               ,dataMovimento:resposta.entidade.dataMovimento
+               ,quantidade:resposta.entidade.quantidade
+               ,valorUnitario:resposta.entidade.valorUnitario
+               ,valorTotal:resposta.entidade.valorTotal
+               ,materialId:resposta.entidade.material.id
+               ,tipoId:resposta.entidade.tipo
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -151,7 +164,7 @@ class EmbalagemForm extends React.Component
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/movimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -160,7 +173,7 @@ class EmbalagemForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/embalagem/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/movimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -207,7 +220,7 @@ class EmbalagemForm extends React.Component
     SisManterConsultar(entidade)
     {
         debugger;
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -250,12 +263,12 @@ class EmbalagemForm extends React.Component
     }
     Listar()
     {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/unidademedida/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
     }
 
     Listou(tipo, resposta)
     {
-        if(tipo=='unidademedida')
+        if(tipo=='material')
         {
             if(resposta.request.status == 200)
             {
@@ -280,26 +293,72 @@ class EmbalagemForm extends React.Component
 
         <div class="form-group">
 
-            <input type="text" class="form-control" id="inputNome"  
-                aria-describedby="nomeHelp" 
-                placeHolder="Informe o nome." 
-                onChange={(o)=>this.setState({nome:o.target.value})}
-                value={this.state.nome}
-            />
-            <input type="text" class="form-control" id="inputCapacidade"  
-                aria-describedby="capacidadeHelp" 
-                placeHolder="Informe o capacidade." 
-                onChange={(o)=>this.setState({capacidade:o.target.value})}
-                value={this.state.capacidade}
-            />
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputTipo" 
+                    onChange={(o)=>this.setState({tipoId:o.target.value})}
+                    defaultValue={this.state.tipoId}
+                    value={this.state.tipoId}
+                >         
+
+                    <option 
+                        value='1'
+                        >ENTRADA</option> 
+                    <option 
+                        value='2'
+                        >SAIDA</option> 
+                    <option 
+                        value='3'
+                        >COMPRA</option> 
+                    <option 
+                        value='4'
+                        >COTACAO</option> 
+                
+                
+                <option value="0" >Informe o tipo</option>
+
+                </select>
+                
+               
+            
+
+        
+
+                <input type="date" class="form-control" id="inputdataMovimento"  
+                            aria-describedby="dataMovimentoHelp" 
+                            placeHolder="dataMovimento." 
+                            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
+                            value={this.state.dataMovimento}
+                    />
+
+                        <input type="text" class="form-control" id="inputquantidade"  
+                            aria-describedby="quantidadeHelp" 
+                            placeHolder="quantidade." 
+                            onChange={(o)=>this.setState({quantidade:o.target.value})}
+                            value={this.state.quantidade}
+                    />
+                        <input type="text" class="form-control" id="inputvalorUnitario "  
+                            aria-describedby="valorUnitario Help" 
+                            placeHolder="valorUnitario ." 
+                            onChange={(o)=>this.setState({valorUnitario :o.target.value})}
+                            value={this.state.valorUnitario }
+                    />
+
+                        <input type="text" class="form-control" id="inputvalorTotal "  
+                            aria-describedby="valorTotal Help" 
+                            placeHolder="valorTotal ." 
+                            onChange={(o)=>this.setState({valorTotal :o.target.value})}
+                            value={this.state.valorTotal }
+                    />      
+                    
 
             {this.state.listaBuscou==true ?
                 <select 
                     class="form-control form-control-sm" 
-                    id="InputUnidadeMedida" 
-                    onChange={(o)=>this.setState({unidademedidaId:o.target.value})}
-                    defaultValue={this.state.unidademedidaId}
-                    value={this.state.unidademedidaId}
+                    id="Inputmaterial" 
+                    onChange={(o)=>this.setState({materialId:o.target.value})}
+                    defaultValue={this.state.materialId}
+                    value={this.state.materialId}
                 >
             
                 {this.state.lista != null ?
@@ -307,16 +366,18 @@ class EmbalagemForm extends React.Component
                     this.state.lista.map( (entidade) =>
                     <option 
                         value={entidade.id} 
-                        >{entidade.nome + " "+ entidade.capacidade }</option> 
+                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
                     )
                 : ""
                 }
-                <option value="0" >Informe a unidade de medida</option>
+                <option value="0" >Informe o material</option>
 
                 </select>
                 :
                 <div></div>
             }
+
+
     
             <SisMensagemView
                 visao={this.state.visao}
@@ -357,5 +418,5 @@ class EmbalagemForm extends React.Component
 }
 
 
-export default EmbalagemForm;
+export default MovimentoForm;
 

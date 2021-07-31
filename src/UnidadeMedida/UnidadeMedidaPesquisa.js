@@ -74,7 +74,9 @@ class UnidadeMedidaPesquisa extends React.Component
 
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
+
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/pesquisar" + p
+
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -133,14 +135,14 @@ class UnidadeMedidaPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputUf"  
+                    <input type="text" class="form-control" id="inputNome"  
                             aria-describedby="nomeHelp" 
                             placeHolder="Nome." 
                             onChange={(o)=>this.setState({nome:o.target.value})}
                             value={this.state.nome}
                     />
 
-                            <input type="text" class="form-control" id="inputUf"  
+                            <input type="text" class="form-control" id="inputUnidadeMedida"  
                             aria-describedby="siglaHelp" 
                             placeHolder="sigla." 
                             onChange={(o)=>this.setState({sigla:o.target.value})}

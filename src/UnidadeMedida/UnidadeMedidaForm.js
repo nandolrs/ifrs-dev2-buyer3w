@@ -16,6 +16,7 @@ class UnidadeMedidaForm extends React.Component
             this.state={
                  id:0
                 ,nome:''
+                ,sigla:''
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
@@ -42,6 +43,7 @@ class UnidadeMedidaForm extends React.Component
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
+        ,sigla:this.state.sigla
         };
         this.SisManterSalvar(entidade);
     }
@@ -127,6 +129,7 @@ class UnidadeMedidaForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
+               ,sigla:resposta.entidade.sigla
                ,lista:null
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
@@ -145,6 +148,8 @@ class UnidadeMedidaForm extends React.Component
     SisManterSalvar(entidade)
     {
         this.setState({visao:'processando'});
+
+        debugger;
 
         if(entidade.id==0)
         {
@@ -202,7 +207,7 @@ class UnidadeMedidaForm extends React.Component
 
     SisManterConsultar(entidade)
     {
-
+        debugger;
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/consultar/" + entidade.id
             ,window.getCabeca()
             )
@@ -213,7 +218,7 @@ class UnidadeMedidaForm extends React.Component
     Consultou(resposta)
     {
         var retorno = null;
-
+debugger;
         if(resposta.status == 200)
         {   
             var erro = resposta.data.erro;
@@ -267,6 +272,13 @@ class UnidadeMedidaForm extends React.Component
                 placeHolder="Informe o nome." 
                 onChange={(o)=>this.setState({nome:o.target.value})}
                 value={this.state.nome}
+            />
+
+            <input type="text" class="form-control" id="inputSigla"  
+                aria-describedby="siglaHelp" 
+                placeHolder="Informe o sigla." 
+                onChange={(o)=>this.setState({sigla:o.target.value})}
+                value={this.state.sigla}
             />
     
             <SisMensagemView

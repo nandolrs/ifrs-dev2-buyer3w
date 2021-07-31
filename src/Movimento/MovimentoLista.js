@@ -6,14 +6,29 @@ import ListaBotoes from '../SisPadrao/ListaBotoes'
 
 var matrizSelecionados = [];
 
-class UnidadeMedidaLista extends React.Component
+class MovimentoLista extends React.Component
 {
     constructor(props)
     {
         super(props);
         this.state={entidade:this.props.entidade};
     }
+    TraduzirTipo(tipo){
+      if(tipo == 1){
+        return "Entrada";
 
+      }else if(tipo == 2)
+      {
+        return "Saida";
+    }else if(tipo == 3)
+    {
+      return "Compra";
+    }else if(tipo == 4){
+      return "Cotação";
+    }else{
+      return "Indefinido";
+    }
+  }
     render()
     {
       return(
@@ -34,10 +49,21 @@ class UnidadeMedidaLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
-    {entidade.nome + " "+  entidade.sigla }
+    {entidade.material.produto.nome + ' ' +entidade.material.embalagem.nome + ' com ' + entidade.material.embalagem.capacidade + ' ' + entidade.material.embalagem.unidadeMedida.nome }
+    
     </div>
-    <div class="card-body">
-    </div>
+    <div  class="card-body">
+    <p>Tipo</p>
+      <p>{this.TraduzirTipo(entidade.tipo)}</p>
+      <p>Data</p>
+      <p>{ window.DataFormatada(entidade.dataMovimento)}</p>
+      <p>Quantidade</p>
+      <p>{ (entidade.quantidade)}</p>
+      <p>Valor Unitario</p>
+      <p>{ (entidade.valorUnitario)}</p>
+      <p>Valor Total</p>
+      <p>{ (entidade.valorTotal)}</p>
+   </div>
   </div>
   <br/>
                 </div>
@@ -68,5 +94,5 @@ class UnidadeMedidaLista extends React.Component
 }
 
 
-export default UnidadeMedidaLista;
+export default MovimentoLista;
 
