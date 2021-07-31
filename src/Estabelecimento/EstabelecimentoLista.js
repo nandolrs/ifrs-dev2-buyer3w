@@ -34,8 +34,8 @@ class EstabelecimentoLista extends React.Component
 
               {this.state.entidade.map( (entidade) =>  
                 <div>
-  <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
-    <div class="card-header">
+  <div  class="card">
+    <div class="card-header"   onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     {entidade.nomeFantasia}
     </div>
     <div class="card-body">
