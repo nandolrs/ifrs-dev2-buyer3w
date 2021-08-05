@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import UsuarioView from './UsuarioView';
+import EstabelecimentoView from './EstabelecimentoView';
 import PesquisaBotoes from '../SisPadrao/PesquisaBotoes'
 import { unstable_createPortal } from 'react-dom';
 
@@ -8,15 +8,14 @@ import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
 
-class UsuarioPesquisa extends React.Component
+class EstabelecimentoPesquisa extends React.Component
 {
     constructor(props)
     {
         super(props);
         this.state={
-            id:0
-            ,nome:''
-            ,email:''
+            codigo:0
+            ,nomeFantasia:''
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             ,lista:null
         };
@@ -26,10 +25,10 @@ class UsuarioPesquisa extends React.Component
     {
         this.setState({visao:'processando'});
 
-        let _p = 'nome=';
-        if(this.state.nome != '')
+        let _p = 'nomeFantasia=';
+        if(this.state.nomeFantasia != '')
         {
-            _p = _p+ this.state.nome;
+            _p = _p+ this.state.nomeFantasia;
         }
         else
         {
@@ -38,10 +37,8 @@ class UsuarioPesquisa extends React.Component
         }
 
         var entidade={codigo:0
-            ,nome:this.state.nome
+            ,nomeFantasia:this.state.nomeFantasia
             ,p:_p
-
-        
         };
 
         this.SisManterPesquisar(entidade);
@@ -70,11 +67,9 @@ class UsuarioPesquisa extends React.Component
 
     SisManterPesquisar(entidade)
     {
-        debugger;
-
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/pesquisar" + p
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/pesquisar" + p
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -85,8 +80,6 @@ class UsuarioPesquisa extends React.Component
 
     Pesquisou(resposta)
     {
-        debugger;
-        
         var retorno = null;
 
         if(resposta.status == 200)
@@ -133,19 +126,13 @@ class UsuarioPesquisa extends React.Component
 
                 <div class="form-group">
 
-                    <input type="text" class="form-control" id="inputUf"  
-                            aria-describedby="nomeHelp" 
-                            placeHolder="Nome." 
-                            onChange={(o)=>this.setState({nome:o.target.value})}
-                            value={this.state.nome}
+                    <input type="text" class="form-control" id="inputNomeFantasia"  
+                            aria-describedby="nomeFantasiaHelp" 
+                            placeHolder="Nome fantasia." 
+                            onChange={(o)=>this.setState({nomeFantasia:o.target.value})}
+                            value={this.state.nomeFantasia}
                     />
 
-                    <input type="text" class="form-control" id="inputUf"  
-                            aria-describedby="emailHelp" 
-                            placeHolder="Email." 
-                            onChange={(o)=>this.setState({email:o.target.value})}
-                            value={this.state.email}
-                    />
 
                     <SisMensagemView
                         visao={this.state.visao}
@@ -185,5 +172,5 @@ class UsuarioPesquisa extends React.Component
 }
 
 
-export default UsuarioPesquisa;
+export default EstabelecimentoPesquisa;
 

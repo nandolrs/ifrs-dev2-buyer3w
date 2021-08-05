@@ -4,6 +4,9 @@ import ClasseView from '../Classe/ClasseView';
 import ProdutoView from '../Produto/ProdutoView';
 import EmbalagemView from '../Embalagem/EmbalagemView';
 import UnidadeMedidaView from '../UnidadeMedida/UnidadeMedidaView';
+import FichaProducaoView from '../FichaProducao/FichaProducaoView';
+import UsuarioView from '../Usuario/UsuarioView';
+import EstabelecimentoView from '../Estabelecimento/EstabelecimentoView';
 import MovimentoView from '../Movimento/MovimentoView';
 
 import { isNumericLiteral } from '@babel/types';
@@ -100,6 +103,29 @@ class MaestroView extends React.Component
                 : "" 
                 }
 
+                {window.location.pathname=='/usuario' ?
+                    <UsuarioView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
+
+                {window.location.pathname=='/estabelecimento' ?
+                    <EstabelecimentoView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
+                    />
+                : "" 
+                }   
 
             </div>
         );

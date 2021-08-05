@@ -2,11 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import FormBotoes from '../SisPadrao/FormBotoes'
 import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
+import EstabelecimentoMapa from '../Estabelecimento/EstabelecimentoMapa'
 
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class UsuarioForm extends React.Component
+class ClasseForm extends React.Component
 {
     constructor(props)
     {        
@@ -15,9 +16,9 @@ class UsuarioForm extends React.Component
         {
             this.state={
                  id:0
-                ,nome:''
-                ,email:''
-                ,senha:''
+                ,latitude:0
+                ,longitude:0
+                ,nomeFantasia:''
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
@@ -39,12 +40,21 @@ class UsuarioForm extends React.Component
         
     Salvar()
     {
+        debugger;
+
+        //let _interesseCoordenadas = window.CoordenadasObterParaInteresseObter();
+
+        const _latitude =  window.document.getElementById("inputLatitude") != null ? window.document.getElementById("inputLatitude").value : 0;
+        const _longitude =  window.document.getElementById("inputLongitude") != null ? window.document.getElementById("inputLongitude").value : 0;
+
         let entidade =  {
         id:this.state.id
-        ,nome:this.state.nome
-        ,email:this.state.email
-        ,senha:this.state.senha
-        };
+        ,nomeFantasia:this.state.nomeFantasia
+//        ,latitude:_interesseCoordenadas.latitude
+//        ,longitude:_interesseCoordenadas.longitude
+        ,latitude:_latitude
+        ,longitude:_longitude
+};
         this.SisManterSalvar(entidade);
     }
 
@@ -62,7 +72,7 @@ class UsuarioForm extends React.Component
     {
         this.setState({visao:'processando'});
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/excluir/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/excluir/" + entidade.id
             ,window.getCabeca())
             .then((resposta)=>this.Excluiu(resposta))
             .catch((resposta => this.Excluiu(resposta))
@@ -121,9 +131,9 @@ class UsuarioForm extends React.Component
         {
             let estado={
                 id:resposta.entidade.id
-               ,nome:resposta.entidade.nome
-               ,email:resposta.entidade.email
-               ,senha:resposta.entidade.senha
+               ,nomeFantasia:resposta.entidade.nomeFantasia
+               ,latitude:resposta.entidade.latitude
+               ,longitude:resposta.entidade.longitude
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -134,15 +144,13 @@ class UsuarioForm extends React.Component
         }
     }
 
-    SisManterSalvar(entidade)    
+    SisManterSalvar(entidade)
     {
-    debugger;
-
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -151,7 +159,7 @@ class UsuarioForm extends React.Component
         }
         else
         {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
+            axios.post(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/salvar"
                 ,entidade
                 ,window.getCabeca()
             )
@@ -162,7 +170,6 @@ class UsuarioForm extends React.Component
 
     Salvou(resposta)
     {
-        debugger;
         var retorno = null;
 
         if(resposta.request.status == 200)
@@ -198,7 +205,7 @@ class UsuarioForm extends React.Component
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/usuario/consultar/" + entidade.id
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -257,27 +264,31 @@ class UsuarioForm extends React.Component
 
         <div class="form-group">
 
-            <input type="text" class="form-control" id="inputNome"  
-                aria-describedby="nomeHelp" 
-                placeHolder="Informe o nome." 
-                onChange={(o)=>this.setState({nome:o.target.value})}
-                value={this.state.nome}
-            />
-    
-            <input type="text" class="form-control" id="inputEmail"  
-                aria-describedby="emailHelp" 
-                placeHolder="Informe o email." 
-                onChange={(o)=>this.setState({email:o.target.value})}
-                value={this.state.email}
+            <input type="text" class="form-control" id="inputNomeFantasia"  
+                    aria-describedby="nomeFantasiaHelp" 
+                    placeHolder="Nome fantasia." 
+                    onChange={(o)=>this.setState({nomeFantasia:o.target.value})}
+                    value={this.state.nomeFantasia}
             />
 
-            <input type="text" class="form-control" id="inputSenha"  
-                aria-describedby="senhaHelp" 
-                placeHolder="Informe a senha." 
-                onChange={(o)=>this.setState({senha:o.target.value})}
-                value={this.state.senha}
+            <input type="text" class="form-control" id="inputLatitude"  
+                    aria-describedby="latitudeHelp" 
+                    placeHolder="Latitude." 
+                    onChange={(o)=>this.setState({latitude:o.target.value})}
+                    value={this.state.latitude}
             />
-            
+            <input type="text" class="form-control" id="inputLongitude"  
+                    aria-describedby="longitudeHelp" 
+                    placeHolder="Longitude." 
+                    onChange={(o)=>this.setState({longitude:o.target.value})}
+                    value={this.state.longitude}
+            />
+
+            <EstabelecimentoMapa 
+                latitude={this.state.latitude}
+                longitude={this.state.longitude}
+            />
+
             <SisMensagemView
                 visao={this.state.visao}
                 mensagens={this.state.mensagens}
@@ -293,6 +304,7 @@ class UsuarioForm extends React.Component
             }
 
         </div>
+
 
         <FormBotoes
             id={this.props.entidade.id} 
@@ -317,5 +329,5 @@ class UsuarioForm extends React.Component
 }
 
 
-export default UsuarioForm;
+export default ClasseForm;
 
