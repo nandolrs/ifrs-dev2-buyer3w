@@ -22,6 +22,7 @@ class EmbalagemForm extends React.Component
                 ,mensagens:null
 
             };
+            
         }
         else
         { 
@@ -37,6 +38,7 @@ class EmbalagemForm extends React.Component
 
            this.SisManterConsultar(entidade);
         }
+        this.Listar();
     }
         
     Salvar()
@@ -45,6 +47,7 @@ class EmbalagemForm extends React.Component
         id:this.state.id
         ,nome:this.state.nome
         ,capacidade:this.state.capacidade
+        ,unidadeMedida:{id:this.state.unidademedidaId}
         };
         this.SisManterSalvar(entidade);
     }
@@ -131,7 +134,6 @@ class EmbalagemForm extends React.Component
                ,nome:resposta.entidade.nome
                ,capacidade:resposta.entidade.capacidade
                ,unidademedidaId:resposta.entidade.unidadeMedida.id
-               ,lista:null
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -250,12 +252,12 @@ class EmbalagemForm extends React.Component
     }
     Listar()
     {
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/unidademedida/listar",window.getCabeca()).then((resposta)=>this.Listou('classe',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/listar",window.getCabeca()).then((resposta)=>this.Listou('UnidadeMedida',resposta));
     }
 
     Listou(tipo, resposta)
     {
-        if(tipo=='unidademedida')
+        if(tipo=='UnidadeMedida')
         {
             if(resposta.request.status == 200)
             {
@@ -307,7 +309,7 @@ class EmbalagemForm extends React.Component
                     this.state.lista.map( (entidade) =>
                     <option 
                         value={entidade.id} 
-                        >{entidade.nome + " "+ entidade.capacidade }</option> 
+                        >{entidade.sigla }</option> 
                     )
                 : ""
                 }
