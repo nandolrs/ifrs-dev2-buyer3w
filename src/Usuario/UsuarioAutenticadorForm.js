@@ -6,7 +6,7 @@ import FormBotoesDetalhe from '../SisPadrao/FormBotoesDetalhe'
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class UsuarioForm extends React.Component
+class UsuarioAutenticadorForm extends React.Component
 {
     constructor(props)
     {        
@@ -15,7 +15,6 @@ class UsuarioForm extends React.Component
         {
             this.state={
                  id:0
-                ,nome:''
                 ,email:''
                 ,senha:''
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
@@ -40,9 +39,7 @@ class UsuarioForm extends React.Component
     Salvar()
     {
         let entidade =  {
-        id:this.state.id
-        ,nome:this.state.nome
-        ,email:this.state.email
+        email:this.state.email
         ,senha:this.state.senha
         };
         this.SisManterSalvar(entidade);
@@ -121,7 +118,6 @@ class UsuarioForm extends React.Component
         {
             let estado={
                 id:resposta.entidade.id
-               ,nome:resposta.entidade.nome
                ,email:resposta.entidade.email
                ,senha:resposta.entidade.senha
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
@@ -136,28 +132,14 @@ class UsuarioForm extends React.Component
 
     SisManterSalvar(entidade)    
     {
-    debugger;
-
+        debugger;
         this.setState({visao:'processando'});
-
-        if(entidade.id==0)
-        {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
-                ,entidade
-                ,window.getCabeca()
+        let url = process.env.REACT_APP_SERVER_URL + "/api/usuarioautenticador/autenticar?email="+entidade.email+"&senha="+entidade.senha;
+         axios.get(url      
+         ,window.getCabeca()
             )
             .then((resposta)=>this.Salvou(resposta))
             .catch((resposta) => this.Salvou(resposta));
-        }
-        else
-        {
-            axios.post(process.env.REACT_APP_SERVER_URL + "/api/usuario/salvar"
-                ,entidade
-                ,window.getCabeca()
-            )
-            .then((resposta)=>this.Salvou(resposta))
-            .catch((resposta) => this.Salvou(resposta));
-        }
     }
 
     Salvou(resposta)
@@ -177,17 +159,25 @@ class UsuarioForm extends React.Component
                 };
             }
             else
-            {
-                retorno = {visao:"mensagem.sucesso"
-                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
-                };
+            { 
+                if (resposta.data.confirmacao == "Sucesso!") {
+
+                    window.setCookie("token", resposta.data.dados.sessao, 1);
+                    retorno = {visao:"mensagem.sucesso",mensagens:window.ToMensagens("Joinha.")};
+                
+                }
+                 else{
+                     
+                    window.clearCookie("token");
+                    retorno = {visao:"mensagem.sucesso",mensagens:window.ToMensagens("Faio.")};   
+                    
+            
+                } 
             }
         }
         else
         {
-            retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
-            };
+            retorno = {visao:"mensagem.erro",mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")};
         }
 
         this.Evento(retorno, 'salvou');
@@ -258,12 +248,6 @@ class UsuarioForm extends React.Component
 
         <div class="form-group">
 
-            <input type="text" class="form-control" id="inputNome"  
-                aria-describedby="nomeHelp" 
-                placeHolder="Informe o nome." 
-                onChange={(o)=>this.setState({nome:o.target.value})}
-                value={this.state.nome}
-            />
     
             <input type="text" class="form-control" id="inputEmail"  
                 aria-describedby="emailHelp" 
@@ -318,5 +302,5 @@ class UsuarioForm extends React.Component
 
 
 
-export default UsuarioForm;
+export default UsuarioAutenticadorForm;
 
