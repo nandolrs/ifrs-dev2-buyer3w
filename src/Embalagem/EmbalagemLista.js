@@ -34,11 +34,17 @@ class EmbalagemLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
-    {entidade.nome + "  " + entidade.capacidade}
+    {entidade.nome}
     </div>
     <div class="card-body">
-    {' com ' + entidade.capacidade + ' ' + entidade.unidadeMedida.nome }
-
+      
+    <p>Embalagem:</p>
+      <p>{ (entidade.nome)}</p>
+      <p>capacidade:</p>
+      <p>{ (entidade.capacidade)}</p>
+      <p>unidadeMedida</p>
+      <p>{ (entidade.unidadeMedida.sigla)}</p>
+    
     </div>
   </div>
   <br/>

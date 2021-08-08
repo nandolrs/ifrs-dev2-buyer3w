@@ -20,7 +20,8 @@ class MovimentoPesquisa extends React.Component
             ,valorUnitario:''
             ,valorTotal:''
             ,materialId:0
-             ,tipoId:0
+            ,estabelecimentoId:0
+            ,tipoId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
     
         };
@@ -128,6 +129,7 @@ class MovimentoPesquisa extends React.Component
     {
     
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/listar",window.getCabeca()).then((resposta)=>this.Listou('estabelecimento',resposta));
     }
 
     Listou(tipo, resposta)
@@ -195,7 +197,7 @@ class MovimentoPesquisa extends React.Component
                     this.state.lista.map( (entidade) =>
                     <option 
                         value={entidade.id} 
-                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
+                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome  }</option> 
                     )
                 : ""
                 }
@@ -205,8 +207,10 @@ class MovimentoPesquisa extends React.Component
                 :
                 <div></div>
             }
+                
+            
 
-                <input type="text" class="form-control" id="inputdataMovimento"  
+                <input type="date" class="form-control" id="inputdataMovimento"  
                             aria-describedby="dataMovimentoHelp" 
                             placeHolder="dataMovimento." 
                             onChange={(o)=>this.setState({dataMovimento:o.target.value})}

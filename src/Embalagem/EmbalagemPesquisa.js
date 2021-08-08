@@ -17,26 +17,40 @@ class EmbalagemPesquisa extends React.Component
             codigo:0
             ,nome:''
             ,capacidade:''
+            ,unidadeMedidaId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
-            ,lista:null
-        };
+        }
+        this.Listar();
     }
-
     Pesquisar()
     {
         this.setState({visao:'processando'});
+debugger;
 
-        let _p = 'nome=';
+        let _p = 'nome=<nome>&capacidade=<capacidade>&unidadeMedidaId=<unidadeMedidaId>';
         if(this.state.nome != '')
         {
-            _p = _p+ this.state.nome;
-        }
-        else
+           _p = _p.replace('<nome>', this.state.nome );
+            _p = _p.replace('<capacidade>', '0' );
+            _p = _p.replace('<unidadeMedidaId>', '0' );
+        } else if(this.state.capacidade > 0)
         {
-            _p = _p+ '';
+           _p = _p.replace('<nome>', '' );
+            _p = _p.replace('<capacidade>', this.state.capacidade );
+            _p = _p.replace('<unidadeMedidaId>', '0' );
+        }else if(this.state.unidadeMedidaId > 0)
+        {
+           _p = _p.replace('<nome>', '' );
+            _p = _p.replace('<capacidade>', '0' );
+            _p = _p.replace('<unidadeMedidaId>', this.state.unidadeMedidaId );
+        }else{
+            _p = _p.replace('<nome>', '' );
+            _p = _p.replace('<capacidade>', '0' );
+            _p = _p.replace('<unidadeMedidaId>', '0' );
 
         }
-
+        
+        
         var entidade={codigo:0
             ,nome:this.state.nome
             ,p:_p
@@ -118,6 +132,25 @@ class EmbalagemPesquisa extends React.Component
         }
         this.Evento(retorno, 'pesquisou');
     }
+    Listar()
+    {
+    debugger;
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/listar",window.getCabeca()).then((resposta)=>this.Listou('unidademedida',resposta));
+       
+    }
+
+    Listou(tipo, resposta)
+    {
+     debugger;
+        if(tipo=='unidademedida')
+        {
+            if(resposta.request.status == 200)
+            {
+                this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
+            }
+    
+        }
+    }
 
     render()
     {
@@ -146,6 +179,30 @@ class EmbalagemPesquisa extends React.Component
                             onChange={(o)=>this.setState({capacidade:o.target.value})}
                             value={this.state.capacidade}
                     />
+                     {this.state.listaBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputunidadeMedida" 
+                    onChange={(o)=>this.setState({unidadeMedidaId:o.target.value})}
+                    defaultValue={this.state.unidadeMedidaId}
+                    value={this.state.unidadeMedidaId}
+                >
+            
+                {this.state.lista != null ?
+
+                    this.state.lista.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.sigla }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe a Unidade de Medida</option>
+
+                </select>
+                :
+                <div></div>
+            }
 
                     <SisMensagemView
                         visao={this.state.visao}
