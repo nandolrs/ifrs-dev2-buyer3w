@@ -63,6 +63,8 @@ class MovimentoLista extends React.Component
       <p>{ (entidade.valorUnitario)}</p>
       <p>Valor Total</p>
       <p>{ (entidade.valorTotal)}</p>
+      <p>Estabelecimento</p>
+      <p>{ (entidade.estabelecimento.nomeFantasia)}</p>
    </div>
   </div>
   <br/>

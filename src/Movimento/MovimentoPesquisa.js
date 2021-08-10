@@ -32,14 +32,26 @@ class MovimentoPesquisa extends React.Component
     {
         this.setState({visao:'processando'});
 
-        let _p = 'materialId=';
-        if(this.state.materialId != 0)
+        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>';
+        if(this.state.nome != '')
         {
-            _p = _p+ this.state.materialId;
-        }
-        else
+           _p = _p.replace('<dataMovimento>', this.state.dataMovimento );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+        } else if(this.state.quantidade > 0)
         {
-            _p = _p+ '0';
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', this.state.quantidade );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+        }else if(this.state.estabelecimentoId > 0)
+        {
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', this.state.estabelecimentoId );
+        }else{
+            _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
 
         }
         
@@ -139,6 +151,10 @@ class MovimentoPesquisa extends React.Component
             if(resposta.request.status == 200)
             {
                 this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
+            }}else if(tipo=='estabelecimento'){
+                    if(resposta.request.status == 200)
+                {
+                    this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
             }
     
         }
@@ -235,7 +251,34 @@ class MovimentoPesquisa extends React.Component
                             placeHolder="valorTotal ." 
                             onChange={(o)=>this.setState({valorTotal :o.target.value})}
                             value={this.state.valorTotal }
+
+
                     />      
+                    {this.state.listaBuscou==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="Inputestabelecimento" 
+                    onChange={(o)=>this.setState({estabelecimentoId:o.target.value})}
+                    defaultValue={this.state.estabelecimentoId}
+                    value={this.state.estabelecimentoId}
+                >
+            
+                {this.state.lista != null ?
+
+                    this.state.lista.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nomeFantasia }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe o Nome Fantasia</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
                     
                     <SisMensagemView
                         visao={this.state.visao}
@@ -276,4 +319,3 @@ class MovimentoPesquisa extends React.Component
 
 
 export default MovimentoPesquisa;
-
