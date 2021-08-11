@@ -9,6 +9,7 @@ import UsuarioView from '../Usuario/UsuarioView';
 import EstabelecimentoView from '../Estabelecimento/EstabelecimentoView';
 import MovimentoView from '../Movimento/MovimentoView';
 import UsuarioAutenticadorView from '../Usuario/UsuarioAutenticadorView';
+import MaterialView from '../Material/MaterialView';
 
 import { isNumericLiteral } from '@babel/types';
 import axios from 'axios';
@@ -130,6 +131,18 @@ class MaestroView extends React.Component
 
                 {window.location.pathname=='/usuarioautenticador' ?
                     <UsuarioAutenticadorView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.noexiste"})} 
+                    />
+                : "" 
+                }   
+
+                {window.location.pathname=='/material' ?
+                    <MaterialView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
                         visao = {this.state.visao} 
