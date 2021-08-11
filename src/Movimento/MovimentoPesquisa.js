@@ -39,8 +39,7 @@ debugger;
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
-        } else if(this.state.quantidade > 0)
-        {
+        } else if(this.state.quantidade > 0)  {
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', this.state.quantidade );
             _p = _p.replace('<estabelecimentoId>', '0' );
@@ -99,8 +98,8 @@ debugger;
         debugger;
 
         let p = entidade.p != '' ? '?'+entidade.p : '';
-
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p
+let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
+        axios.get(url
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
