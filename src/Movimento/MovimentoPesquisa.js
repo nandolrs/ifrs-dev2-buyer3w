@@ -31,27 +31,35 @@ class MovimentoPesquisa extends React.Component
     Pesquisar()
     {
         this.setState({visao:'processando'});
-
-        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>';
-        if(this.state.nome != '')
+debugger;
+        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>';
+        if(this.state.dataMovimento != '')
         {
            _p = _p.replace('<dataMovimento>', this.state.dataMovimento );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', '0' );
         } else if(this.state.quantidade > 0)
         {
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', this.state.quantidade );
             _p = _p.replace('<estabelecimentoId>', '0' );
-        }else if(this.state.estabelecimentoId > 0)
-        {
+            _p = _p.replace('<materialId>', '0' );
+        }else if(this.state.estabelecimentoId > 0){
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', this.state.estabelecimentoId );
+            _p = _p.replace('<materialId>', '0' );
+        }else if(this.state.materialId > 0){
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', this.state.materialId );
         }else{
             _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', '0' );
 
         }
         
@@ -151,13 +159,14 @@ class MovimentoPesquisa extends React.Component
             if(resposta.request.status == 200)
             {
                 this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
-            }}else if(tipo=='estabelecimento'){
-                    if(resposta.request.status == 200)
-                {
-                    this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
             }
-    
-        }
+         } if(tipo=='estabelecimento')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
+             }
+          }             
     }
     render()
     {
@@ -254,7 +263,7 @@ class MovimentoPesquisa extends React.Component
 
 
                     />      
-                    {this.state.listaBuscou==true ?
+                    {this.state.listaBuscouEstabelecimento==true ?
                 <select 
                     class="form-control form-control-sm" 
                     id="Inputestabelecimento" 
@@ -263,16 +272,16 @@ class MovimentoPesquisa extends React.Component
                     value={this.state.estabelecimentoId}
                 >
             
-                {this.state.lista != null ?
+                {this.state.listaEstabelecimento != null ?
 
-                    this.state.lista.map( (entidade) =>
+                    this.state.listaEstabelecimento.map( (entidade) =>
                     <option 
                         value={entidade.id} 
                         >{entidade.nomeFantasia }</option> 
                     )
                 : ""
                 }
-                <option value="0" >Informe o Nome Fantasia</option>
+                <option value="0" >Informe o Estabelecimento</option>
 
                 </select>
                 :

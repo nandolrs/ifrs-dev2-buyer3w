@@ -140,7 +140,7 @@ class MovimentoForm extends React.Component
 
             let estado={
                 id:resposta.entidade.id
-                ,nome:resposta.entidade.nome
+               ,nome:resposta.entidade.nome
                ,dataMovimento:resposta.entidade.dataMovimento
                ,quantidade:resposta.entidade.quantidade
                ,valorUnitario:resposta.entidade.valorUnitario
@@ -277,13 +277,14 @@ class MovimentoForm extends React.Component
             if(resposta.request.status == 200)
             {
                 this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
-            }}else if(tipo=='estabelecimento'){
-                    if(resposta.request.status == 200)
-                {
-                    this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
             }
-    
-        }
+         } if(tipo=='estabelecimento')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
+             }
+          }             
     }
 
 
@@ -384,7 +385,7 @@ class MovimentoForm extends React.Component
                 :
                 <div></div>
             }
-                {this.state.listaBuscou==true ?
+                {this.state.listaBuscouEstabelecimento==true ?
                     <select 
                         class="form-control form-control-sm" 
                         id="Inputestabelecimento" 
@@ -393,16 +394,15 @@ class MovimentoForm extends React.Component
                         value={this.state.estabelecimentoId}
                     >
                 
-                    {this.state.lista != null ?
+                    {this.state.listaEstabelecimento != null ?
     
-                        this.state.lista.map( (entidade) =>
+                        this.state.listaEstabelecimento.map( (entidade) =>
                         <option 
                             value={entidade.id} 
-                            >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
-                        )
+                            >{entidade.nomeFantasia }</option>                         )
                     : ""
                     }
-                    <option value="0" >Informe o nome fantasia</option>
+                    <option value="0" >Informe o Estabelecimento</option>
     
                     </select>
                     :
