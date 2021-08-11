@@ -141,7 +141,7 @@ class MaestroView extends React.Component
                 : "" 
                 }   
 
-                {window.location.pathname=='/material' ?
+                {window.location.pathname == '/material' ?
                     <MaterialView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
