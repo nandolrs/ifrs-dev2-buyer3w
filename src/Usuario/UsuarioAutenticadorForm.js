@@ -134,7 +134,8 @@ class UsuarioAutenticadorForm extends React.Component
     {
         debugger;
         this.setState({visao:'processando'});
-        let url = process.env.REACT_APP_SERVER_URL + "/api/usuarioautenticador/autenticar?email="+entidade.email+"&senha="+entidade.senha;
+        let url = process.env.REACT_APP_SERVER_URL + "/api/usuarioautenticador/autenticar?email="+entidade.email+"&senha="+entidade.senha
+        +"&tokenSessao=";
          axios.get(url      
          ,window.getCabeca()
             )
