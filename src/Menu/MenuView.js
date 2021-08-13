@@ -81,6 +81,13 @@ render()
                         : ""
                       }
 
+                      {/* ficha de producao (receita) */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnFichaProducaoPesquisar()}>Ficha de produção (receita)</a>
+                        : ""
+                      }
+
                       {/* usuario */}
 
                       {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
