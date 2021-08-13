@@ -31,15 +31,34 @@ class MovimentoPesquisa extends React.Component
     Pesquisar()
     {
         this.setState({visao:'processando'});
-
-        let _p = 'materialId=';
-        if(this.state.materialId != 0)
+debugger;
+        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>';
+        if(this.state.dataMovimento != '')
         {
-            _p = _p+ this.state.materialId;
-        }
-        else
-        {
-            _p = _p+ '0';
+           _p = _p.replace('<dataMovimento>', this.state.dataMovimento );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', '0' );
+        } else if(this.state.quantidade > 0)  {
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', this.state.quantidade );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', '0' );
+        }else if(this.state.estabelecimentoId > 0){
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', this.state.estabelecimentoId );
+            _p = _p.replace('<materialId>', '0' );
+        }else if(this.state.materialId > 0){
+           _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', this.state.materialId );
+        }else{
+            _p = _p.replace('<dataMovimento>', '' );
+            _p = _p.replace('<quantidade>', '0' );
+            _p = _p.replace('<estabelecimentoId>', '0' );
+            _p = _p.replace('<materialId>', '0' );
 
         }
         
@@ -79,8 +98,8 @@ class MovimentoPesquisa extends React.Component
         debugger;
 
         let p = entidade.p != '' ? '?'+entidade.p : '';
-
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p
+let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
+        axios.get(url
             ,window.getCabeca()
         )   
         .then((resposta)=>this.Pesquisou(resposta))
@@ -140,8 +159,13 @@ class MovimentoPesquisa extends React.Component
             {
                 this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
             }
-    
-        }
+         } if(tipo=='estabelecimento')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
+             }
+          }             
     }
     render()
     {
@@ -235,7 +259,34 @@ class MovimentoPesquisa extends React.Component
                             placeHolder="valorTotal ." 
                             onChange={(o)=>this.setState({valorTotal :o.target.value})}
                             value={this.state.valorTotal }
+
+
                     />      
+                    {this.state.listaBuscouEstabelecimento==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="Inputestabelecimento" 
+                    onChange={(o)=>this.setState({estabelecimentoId:o.target.value})}
+                    defaultValue={this.state.estabelecimentoId}
+                    value={this.state.estabelecimentoId}
+                >
+            
+                {this.state.listaEstabelecimento != null ?
+
+                    this.state.listaEstabelecimento.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nomeFantasia }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe o Estabelecimento</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
                     
                     <SisMensagemView
                         visao={this.state.visao}
@@ -276,4 +327,3 @@ class MovimentoPesquisa extends React.Component
 
 
 export default MovimentoPesquisa;
-

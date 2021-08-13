@@ -7,7 +7,7 @@ import MaterialForm from './MaterialForm';
 import SisMensagemView from '../SisPadrao/SisMensagemView';
 import SisManterView from '../SisPadrao/SisManterView';
 
-class FreteView extends React.Component
+class MaterialView extends React.Component
 {
     constructor(props)
     {
@@ -93,4 +93,4 @@ class FreteView extends React.Component
     }
 }
 
-export default FreteView;
+export default MaterialView;

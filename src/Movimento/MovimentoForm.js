@@ -22,6 +22,7 @@ class MovimentoForm extends React.Component
                  ,valorTotal:''
                  ,materialId:0
                  ,tipoId:0
+                 ,estabelecimentoId:0
                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
@@ -55,6 +56,7 @@ class MovimentoForm extends React.Component
         ,valorTotal:this.state.valorTotal
         ,tipo:this.state.tipoId
         ,material:{id:this.state.materialId}
+        ,estabelecimento:{id:this.state.estabelecimentoId}
         };
         this.SisManterSalvar(entidade);
     }
@@ -138,13 +140,14 @@ class MovimentoForm extends React.Component
 
             let estado={
                 id:resposta.entidade.id
-                ,nome:resposta.entidade.nome
+               ,nome:resposta.entidade.nome
                ,dataMovimento:resposta.entidade.dataMovimento
                ,quantidade:resposta.entidade.quantidade
                ,valorUnitario:resposta.entidade.valorUnitario
                ,valorTotal:resposta.entidade.valorTotal
                ,materialId:resposta.entidade.material.id
                ,tipoId:resposta.entidade.tipo
+               ,estabelecimentoId:resposta.entidade.estabelecimento.id
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -264,6 +267,7 @@ class MovimentoForm extends React.Component
     Listar()
     {
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/listar",window.getCabeca()).then((resposta)=>this.Listou('estabelecimento',resposta));
     }
 
     Listou(tipo, resposta)
@@ -274,8 +278,13 @@ class MovimentoForm extends React.Component
             {
                 this.setState({lista:resposta.data.dadosLista, listaBuscou:true});
             }
-    
-        }
+         } if(tipo=='estabelecimento')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
+             }
+          }             
     }
 
 
@@ -375,6 +384,29 @@ class MovimentoForm extends React.Component
                 </select>
                 :
                 <div></div>
+            }
+                {this.state.listaBuscouEstabelecimento==true ?
+                    <select 
+                        class="form-control form-control-sm" 
+                        id="Inputestabelecimento" 
+                        onChange={(o)=>this.setState({estabelecimentoId:o.target.value})}
+                        defaultValue={this.state.estabelecimentoId}
+                        value={this.state.estabelecimentoId}
+                    >
+                
+                    {this.state.listaEstabelecimento != null ?
+    
+                        this.state.listaEstabelecimento.map( (entidade) =>
+                        <option 
+                            value={entidade.id} 
+                            >{entidade.nomeFantasia }</option>                         )
+                    : ""
+                    }
+                    <option value="0" >Informe o Estabelecimento</option>
+    
+                    </select>
+                    :
+                    <div></div>
             }
 
 
