@@ -109,12 +109,6 @@ render()
                         : ""
                       }
 
-                      {/* estoque */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnEstoquePesquisar()}>Estoque</a>
-                        : ""
-                      }
 
                       </div>
                     </li>
@@ -133,6 +127,13 @@ render()
                         : ""
                       }
 
+
+                      {/* estoque */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnEstoquePesquisar()}>Estoque</a>
+                        : ""
+                      }
 
                     <span><hr/></span>
 
