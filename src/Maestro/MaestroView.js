@@ -10,7 +10,7 @@ import EstabelecimentoView from '../Estabelecimento/EstabelecimentoView';
 import MovimentoView from '../Movimento/MovimentoView';
 import UsuarioAutenticadorView from '../Usuario/UsuarioAutenticadorView';
 import MaterialView from '../Material/MaterialView';
-import FichaProducao from '../FichaProducao/FichaProducaoView';
+import EstoqueView from '../Estoque/EstoqueView';
 import MenuView from '../Menu/MenuView';
 
 import { isNumericLiteral } from '@babel/types';
@@ -122,6 +122,7 @@ class MaestroView extends React.Component
                         OnMaterialPesquisar={() => this.setState({menu:'material'})}
                         OnUsuarioAutenticadorPesquisar={() => this.setState({menu:'usuarioAutenticador'})}
                         OnFichaProducaoPesquisar={() => this.setState({menu:'fichaProducao'})}
+                        OnEstoquePesquisar={() => this.setState({menu:'estoque'})}
 
                     />
 
@@ -248,6 +249,18 @@ class MaestroView extends React.Component
 
                 {window.location.pathname=='/fichaProducao'  || this.state.menu=='fichaProducao' ?
                     <FichaProducaoView 
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao} 
+                        OnEvento={(estado, acao) => this.setState({visao:acao})} 
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.noexiste"})} 
+                    />
+                : "" 
+                }   
+
+                {window.location.pathname=='/estoque'  || this.state.menu=='estoque' ?
+                    <EstoqueView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
                         visao = {this.state.visao} 
