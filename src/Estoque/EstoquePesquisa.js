@@ -33,15 +33,21 @@ class EstoquePesquisa extends React.Component
         this.setState({visao:'processando'});
 
         let _p = 'localId=<localId>&materialId=<materialId>';
+
+        let valor = '0';
         if(this.state.localId != 0)
         {
-            _p = _p.replace('localId',this.state.localId);
+            valor = this.state.localId;
         }
+        _p = _p.replace('<localId>',valor);
 
+
+        valor = '0';
         if(this.state.materialId != 0)
         {
-            _p = _p.replace('materialId',this.state.materialId);
+            valor = this.state.materialId;
         }
+        _p = _p.replace('<materialId>',valor);
 
         var entidade={id:0
             ,produto:{}

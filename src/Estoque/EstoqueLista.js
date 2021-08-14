@@ -10,6 +10,8 @@ class EstoqueLista extends React.Component
 {
     constructor(props)
     {
+      debugger;
+
         super(props);
         this.state={entidade:this.props.entidade};
     }
@@ -34,11 +36,16 @@ class EstoqueLista extends React.Component
                 <div>
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
+      <h5>Produto</h5>
     {entidade.local.nome}
     </div>
     <div class="card-body">
-      {entidade.produto.nome + ' - ' + entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }
-
+      <h5>Local</h5>
+      {entidade.local.nome}
+      <h5>Embalagem</h5>
+      {entidade.material.produto.nome + ' - ' + entidade.material.embalagem.nome + ' com ' + entidade.material.embalagem.capacidade + ' ' + entidade.material.embalagem.unidadeMedida.nome }
+      <h5>Estoque</h5>
+      {entidade.quantidade }
     </div>
   </div>
   <br/>

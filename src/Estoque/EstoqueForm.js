@@ -10,6 +10,8 @@ class EstoqueForm extends React.Component
 {
     constructor(props)
     {        
+        debugger;
+
         super(props);
         if(this.props.entidade.id==0)
         {
@@ -160,6 +162,10 @@ class EstoqueForm extends React.Component
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
+               ,quantidade:resposta.entidade.quantidade
+               ,pontoMinimo:resposta.entidade.pontoMinimo
+               ,pontoMaximo:resposta.entidade.pontoMaximo
+               ,pontoPedido:resposta.entidade.pontoPedido
                ,localId:resposta.entidade.local.id
                ,materialId:resposta.entidade.material.id
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
@@ -323,7 +329,7 @@ class EstoqueForm extends React.Component
                     this.state.listaMaterial.map( (entidade) =>
                     <option 
                         value={entidade.id} 
-                        >{entidade.nome + ' com ' + entidade.capacidade + ' ' + entidade.unidadeMedida.nome}</option> 
+                        >{entidade.produto.nome + ' ; ' + entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome}</option> 
                     )
                 : ""
                 }
@@ -334,7 +340,36 @@ class EstoqueForm extends React.Component
                 <div></div>
             }
 
-    
+
+            <input type="text" class="form-control" id="inputQuantidade"  
+                    aria-describedby="quantidadeHelp" 
+                    placeHolder="Quantidade." 
+                    onChange={(o)=>this.setState({quantidade:o.target.value})}
+                    value={this.state.quantidade}
+            />
+
+            <input type="text" class="form-control" id="pontoMinimo"  
+                    aria-describedby="pontoMinimoHelp" 
+                    placeHolder="Ponto mínimo." 
+                    onChange={(o)=>this.setState({pontoMinimo:o.target.value})}
+                    value={this.state.pontoMinimo}
+            />
+
+
+            <input type="text" class="form-control" id="pontoMaximo"  
+                    aria-describedby="pontoMaximoHelp" 
+                    placeHolder="Ponto máximo." 
+                    onChange={(o)=>this.setState({pontoMaximo:o.target.value})}
+                    value={this.state.pontoMaximo}
+            />
+
+            <input type="text" class="form-control" id="pontoPedido"  
+                    aria-describedby="pontoPedidoHelp" 
+                    placeHolder="Ponto pedido." 
+                    onChange={(o)=>this.setState({pontoPedido:o.target.value})}
+                    value={this.state.pontoPedido}
+            />
+
             <SisMensagemView
                 visao={this.state.visao}
                 mensagens={this.state.mensagens}
