@@ -12,16 +12,18 @@ class MovimentoPesquisa extends React.Component
 {
     constructor(props)
     {
+        debugger;
+
         super(props);
         this.state={
             codigo:0
-            ,dataMovimento:''
+            ,dataMovimento:''//new Date().toLocaleDateString()
             ,quantidade:''
             ,valorUnitario:''
             ,valorTotal:''
             ,materialId:0
             ,estabelecimentoId:0
-            ,tipoId:0
+            ,tipoId:5 // lista
             ,localId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
     
@@ -221,6 +223,9 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
                     <option 
                         value='4'
                         >COTACAO</option> 
+                    <option 
+                        value='5'
+                        >LISTA</option> 
                 
                 
                 <option value="0" >Informe o tipo</option>
@@ -245,7 +250,7 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
                     )
                 : ""
                 }
-                <option value="0" >Informe o Local</option>
+                <option value="0" >Informe o local</option>
 
                 </select>
                 :
@@ -277,38 +282,10 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
                 :
                 <div></div>
             }
-                
-            
 
-                <input type="date" class="form-control" id="inputdataMovimento"  
-                            aria-describedby="dataMovimentoHelp" 
-                            placeHolder="dataMovimento." 
-                            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
-                            value={this.state.dataMovimento}
-                    />
-
-                        <input type="text" class="form-control" id="inputquantidade"  
-                            aria-describedby="quantidadeHelp" 
-                            placeHolder="quantidade." 
-                            onChange={(o)=>this.setState({quantidade:o.target.value})}
-                            value={this.state.quantidade}
-                    />
-                        <input type="text" class="form-control" id="inputvalorUnitario "  
-                            aria-describedby="valorUnitario Help" 
-                            placeHolder="valorUnitario ." 
-                            onChange={(o)=>this.setState({valorUnitario :o.target.value})}
-                            value={this.state.valorUnitario }
-                    />
-
-                        <input type="text" class="form-control" id="inputvalorTotal "  
-                            aria-describedby="valorTotal Help" 
-                            placeHolder="valorTotal ." 
-                            onChange={(o)=>this.setState({valorTotal :o.target.value})}
-                            value={this.state.valorTotal }
-
-
-                    />      
-                    {this.state.listaBuscouEstabelecimento==true ?
+            {(this.state.tipoId == '3' 
+                || this.state.tipoId == '4' )
+                  && this.state.listaBuscouEstabelecimento==true ?
                 <select 
                     class="form-control form-control-sm" 
                     id="Inputestabelecimento" 
@@ -332,6 +309,23 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
                 :
                 <div></div>
             }
+
+            
+
+                <input type="date" class="form-control" id="inputdataMovimento"  
+                            aria-describedby="dataMovimentoHelp" 
+                            placeHolder="dataMovimento." 
+                            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
+                            value={this.state.dataMovimento}
+                    />
+
+                        <input type="text" class="form-control" id="inputquantidade"  
+                            aria-describedby="quantidadeHelp" 
+                            placeHolder="quantidade." 
+                            onChange={(o)=>this.setState({quantidade:o.target.value})}
+                            value={this.state.quantidade}
+                    />
+
 
                     
                     <SisMensagemView

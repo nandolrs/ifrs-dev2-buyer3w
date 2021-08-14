@@ -16,14 +16,16 @@ class MovimentoForm extends React.Component
             this.state={
                  id:0
                  ,nome:''
-                 ,dataMovimento:''
+                 ,dataMovimento:''//new Date().toLocaleDateString()
                  ,quantidade:''
                  ,valorUnitario:''
                  ,valorTotal:''
                  ,materialId:0
                  ,tipoId:0
                  ,estabelecimentoId:0
-                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
+                 ,tipoId:5 // lista
+                 ,localId:0
+                 ,visao:process.env.REACT_APP_VISAO_INFORMANDO
                 ,mensagens:null
 
             };
@@ -52,11 +54,12 @@ class MovimentoForm extends React.Component
         ,nome:this.state.nome
         ,dataMovimento:this.state.dataMovimento
         ,quantidade:this.state.quantidade
-        ,valorUnitario:this.state.valorUnitario
-        ,valorTotal:this.state.valorTotal
+        ,valorUnitario:'0'+this.state.valorUnitario
+        ,valorTotal:'0'+this.state.valorTotal
         ,tipo:this.state.tipoId
         ,material:{id:this.state.materialId}
         ,estabelecimento:{id:this.state.estabelecimentoId}
+        ,local:{id:this.state.localId}
         };
         this.SisManterSalvar(entidade);
     }
@@ -148,6 +151,8 @@ class MovimentoForm extends React.Component
                ,materialId:resposta.entidade.material.id
                ,tipoId:resposta.entidade.tipo
                ,estabelecimentoId:resposta.entidade.estabelecimento.id
+               ,tipoId:resposta.entidade.tipo
+               ,localId:resposta.entidade.local.id
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
             this.setState(estado);
@@ -268,6 +273,7 @@ class MovimentoForm extends React.Component
     {
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/listar",window.getCabeca()).then((resposta)=>this.Listou('estabelecimento',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/listar",window.getCabeca()).then((resposta)=>this.Listou('local',resposta));
     }
 
     Listou(tipo, resposta)
@@ -285,6 +291,13 @@ class MovimentoForm extends React.Component
                  this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
              }
           }             
+          if(tipo=='local')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaLocal:resposta.data.dadosLista, listaBuscouLocal:true});
+             }
+          }             
     }
 
 
@@ -300,114 +313,148 @@ class MovimentoForm extends React.Component
 
   <fieldset>
 
-        <div class="form-group">
+  <div class="form-group">
 
-                <select 
-                    class="form-control form-control-sm" 
-                    id="InputTipo" 
-                    onChange={(o)=>this.setState({tipoId:o.target.value})}
-                    defaultValue={this.state.tipoId}
-                    value={this.state.tipoId}
-                >         
+<select 
+    class="form-control form-control-sm" 
+    id="InputTipo" 
+    onChange={(o)=>this.setState({tipoId:o.target.value})}
+    defaultValue={this.state.tipoId}
+    value={this.state.tipoId}
+>         
 
-                    <option 
-                        value='1'
-                        >ENTRADA</option> 
-                    <option 
-                        value='2'
-                        >SAIDA</option> 
-                    <option 
-                        value='3'
-                        >COMPRA</option> 
-                    <option 
-                        value='4'
-                        >COTACAO</option> 
-                
-                
-                <option value="0" >Informe o tipo</option>
+    <option 
+        value='1'
+        >ENTRADA</option> 
+    <option 
+        value='2'
+        >SAIDA</option> 
+    <option 
+        value='3'
+        >COMPRA</option> 
+    <option 
+        value='4'
+        >COTACAO</option> 
+    <option 
+        value='5'
+        >LISTA</option> 
 
-                </select>
-                
-               
-            
 
-        
+<option value="0" >Informe o tipo</option>
 
-                <input type="date" class="form-control" id="inputdataMovimento"  
-                            aria-describedby="dataMovimentoHelp" 
-                            placeHolder="dataMovimento." 
-                            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
-                            value={this.state.dataMovimento}
-                    />
+</select>
 
-                        <input type="text" class="form-control" id="inputquantidade"  
-                            aria-describedby="quantidadeHelp" 
-                            placeHolder="quantidade." 
-                            onChange={(o)=>this.setState({quantidade:o.target.value})}
-                            value={this.state.quantidade}
-                    />
-                        <input type="text" class="form-control" id="inputvalorUnitario "  
-                            aria-describedby="valorUnitario Help" 
-                            placeHolder="valorUnitario ." 
-                            onChange={(o)=>this.setState({valorUnitario :o.target.value})}
-                            value={this.state.valorUnitario }
-                    />
+{this.state.listaBuscouLocal==true ?
+<select 
+    class="form-control form-control-sm" 
+    id="InputLocal" 
+    onChange={(o)=>this.setState({localId:o.target.value})}
+    defaultValue={this.state.localId}
+    value={this.state.LocalId}
+>
 
-                        <input type="text" class="form-control" id="inputvalorTotal "  
-                            aria-describedby="valorTotal Help" 
-                            placeHolder="valorTotal ." 
-                            onChange={(o)=>this.setState({valorTotal :o.target.value})}
-                            value={this.state.valorTotal }
-                    />      
-                    
+{this.state.listaLocal != null ?
 
-            {this.state.listaBuscou==true ?
-                <select 
-                    class="form-control form-control-sm" 
-                    id="Inputmaterial" 
-                    onChange={(o)=>this.setState({materialId:o.target.value})}
-                    defaultValue={this.state.materialId}
-                    value={this.state.materialId}
-                >
-            
-                {this.state.lista != null ?
+    this.state.listaLocal.map( (entidade) =>
+    <option 
+        value={entidade.id} 
+        >{entidade.nome }</option> 
+    )
+: ""
+}
+<option value="0" >Informe o local</option>
 
-                    this.state.lista.map( (entidade) =>
-                    <option 
-                        value={entidade.id} 
-                        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome }</option> 
-                    )
-                : ""
-                }
-                <option value="0" >Informe o material</option>
+</select>
+:
+<div></div>
+}
 
-                </select>
-                :
-                <div></div>
-            }
-                {this.state.listaBuscouEstabelecimento==true ?
-                    <select 
-                        class="form-control form-control-sm" 
-                        id="Inputestabelecimento" 
-                        onChange={(o)=>this.setState({estabelecimentoId:o.target.value})}
-                        defaultValue={this.state.estabelecimentoId}
-                        value={this.state.estabelecimentoId}
-                    >
-                
-                    {this.state.listaEstabelecimento != null ?
-    
-                        this.state.listaEstabelecimento.map( (entidade) =>
-                        <option 
-                            value={entidade.id} 
-                            >{entidade.nomeFantasia }</option>                         )
-                    : ""
-                    }
-                    <option value="0" >Informe o Estabelecimento</option>
-    
-                    </select>
-                    :
-                    <div></div>
-            }
+
+{this.state.listaBuscou==true ?
+<select 
+    class="form-control form-control-sm" 
+    id="Inputmaterial" 
+    onChange={(o)=>this.setState({materialId:o.target.value})}
+    defaultValue={this.state.materialId}
+    value={this.state.materialId}
+>
+
+{this.state.lista != null ?
+
+    this.state.lista.map( (entidade) =>
+    <option 
+        value={entidade.id} 
+        >{entidade.produto.nome + ' ' +entidade.embalagem.nome + ' com ' + entidade.embalagem.capacidade + ' ' + entidade.embalagem.unidadeMedida.nome  }</option> 
+    )
+: ""
+}
+<option value="0" >Informe o material</option>
+
+</select>
+:
+<div></div>
+}
+
+{(this.state.tipoId == '3' 
+|| this.state.tipoId == '4' )
+  && this.state.listaBuscouEstabelecimento==true ?
+<select 
+    class="form-control form-control-sm" 
+    id="Inputestabelecimento" 
+    onChange={(o)=>this.setState({estabelecimentoId:o.target.value})}
+    defaultValue={this.state.estabelecimentoId}
+    value={this.state.estabelecimentoId}
+>
+
+{this.state.listaEstabelecimento != null ?
+
+    this.state.listaEstabelecimento.map( (entidade) =>
+    <option 
+        value={entidade.id} 
+        >{entidade.nomeFantasia }</option> 
+    )
+: ""
+}
+<option value="0" >Informe o Estabelecimento</option>
+
+</select>
+:
+<div></div>
+}
+
+
+
+<input type="date" class="form-control" id="inputdataMovimento"  
+            aria-describedby="dataMovimentoHelp" 
+            placeHolder="dataMovimento." 
+            onChange={(o)=>this.setState({dataMovimento:o.target.value})}
+            value={this.state.dataMovimento}
+    />
+
+        <input type="text" class="form-control" id="inputquantidade"  
+            aria-describedby="quantidadeHelp" 
+            placeHolder="quantidade." 
+            onChange={(o)=>this.setState({quantidade:o.target.value})}
+            value={this.state.quantidade}
+    />
+    {this.state.tipoId == '3' || this.state.tipoId == '4'  ?
+        <div>
+            <input type="text" class="form-control" id="inputvalorUnitario "  
+                    aria-describedby="valorUnitario Help" 
+                    placeHolder="valorUnitario ." 
+                    onChange={(o)=>this.setState({valorUnitario :o.target.value})}
+                    value={this.state.valorUnitario }
+            />
+
+            <input type="text" class="form-control" id="inputvalorTotal "  
+                aria-describedby="valorTotal Help" 
+                placeHolder="valorTotal ." 
+                onChange={(o)=>this.setState({valorTotal :o.target.value})}
+                value={this.state.valorTotal }
+            />   
+        </div>
+    : ''
+    }
 
 
     
