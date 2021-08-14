@@ -41,8 +41,6 @@ class MaestroView extends React.Component
 
     Autenticar()
     {
-        debugger;
-
         let token = window.getCookie("token");
 
         let entidade = {email:'', senha:'',token:token};

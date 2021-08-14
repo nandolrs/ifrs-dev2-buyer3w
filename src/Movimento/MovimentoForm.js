@@ -49,6 +49,8 @@ class MovimentoForm extends React.Component
         
     Salvar()
     {
+        let _estabelecimento = this.state.estabelecimentoId != 0 ? {id:this.state.estabelecimentoId} :null ; //  {id:null}
+
         let entidade =  {
         id:this.state.id
         ,nome:this.state.nome
@@ -58,7 +60,7 @@ class MovimentoForm extends React.Component
         ,valorTotal:'0'+this.state.valorTotal
         ,tipo:this.state.tipoId
         ,material:{id:this.state.materialId}
-        ,estabelecimento:{id:this.state.estabelecimentoId}
+        ,estabelecimento: _estabelecimento
         ,local:{id:this.state.localId}
         };
         this.SisManterSalvar(entidade);

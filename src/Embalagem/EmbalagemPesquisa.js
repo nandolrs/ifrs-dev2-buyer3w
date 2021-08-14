@@ -25,7 +25,6 @@ class EmbalagemPesquisa extends React.Component
     Pesquisar()
     {
         this.setState({visao:'processando'});
-debugger;
 
         let _p = 'nome=<nome>&capacidade=<capacidade>&unidadeMedidaId=<unidadeMedidaId>';
         if(this.state.nome != '')
@@ -62,8 +61,6 @@ debugger;
 
     Evento(resposta, acao)
     {        
-        debugger;
-
         if(acao=='pesquisou' 
             || acao=='consultou'
             || acao=='salvou'
@@ -84,8 +81,6 @@ debugger;
 
     SisManterPesquisar(entidade)
     {
-        debugger;
-
         let p = entidade.p != '' ? '?'+entidade.p : '';
 
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/pesquisar" + p
@@ -99,8 +94,6 @@ debugger;
 
     Pesquisou(resposta)
     {
-        debugger;
-
         var retorno = null;
 
         if(resposta.status == 200)
@@ -134,14 +127,11 @@ debugger;
     }
     Listar()
     {
-    debugger;
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/UnidadeMedida/listar",window.getCabeca()).then((resposta)=>this.Listou('unidademedida',resposta));
-       
     }
 
     Listou(tipo, resposta)
     {
-     debugger;
         if(tipo=='unidademedida')
         {
             if(resposta.request.status == 200)

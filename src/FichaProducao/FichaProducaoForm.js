@@ -179,7 +179,6 @@ class MaterialForm extends React.Component
 
         if(entidade.id==0)
         {
-            debugger;
             let url = process.env.REACT_APP_SERVER_URL + "/api/material/salvar";
 
             axios.post(process.env.REACT_APP_SERVER_URL + "/api/material/salvar"

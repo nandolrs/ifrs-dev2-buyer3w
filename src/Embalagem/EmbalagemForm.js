@@ -27,7 +27,6 @@ class EmbalagemForm extends React.Component
         }
         else
         { 
-            debugger;
             
             this.state={
                 id:this.props.entidade.id
@@ -65,7 +64,6 @@ class EmbalagemForm extends React.Component
 
     SisManterExcluir(entidade)
     {
-        debugger;
 
         this.setState({visao:'processando'});
 
@@ -122,14 +120,10 @@ class EmbalagemForm extends React.Component
 
         if(acao=='salvou')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
         else if(acao =='consultou')
         {
-            debugger;
-
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
@@ -141,15 +135,12 @@ class EmbalagemForm extends React.Component
         }
         else if(acao =='excluiu')
         {
-            debugger;
-
             this.setState({visao:resposta.visao, mensagens:resposta.mensagens});
         }
     }
 
     SisManterSalvar(entidade)
     {
-        debugger;
         this.setState({visao:'processando'});
 
         if(entidade.id==0)
@@ -174,7 +165,6 @@ class EmbalagemForm extends React.Component
 
     Salvou(resposta)
     {
-        debugger;
         var retorno = null;
 
         if(resposta.request.status == 200)
@@ -209,7 +199,6 @@ class EmbalagemForm extends React.Component
 
     SisManterConsultar(entidade)
     {
-        debugger;
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/embalagem/consultar/" + entidade.id
             ,window.getCabeca()
             )
@@ -220,7 +209,6 @@ class EmbalagemForm extends React.Component
     Consultou(resposta)
     {
         var retorno = null;
-        debugger;
         if(resposta.status == 200)
         {   
             var erro = resposta.data.erro;

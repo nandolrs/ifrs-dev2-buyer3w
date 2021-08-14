@@ -40,18 +40,12 @@ class ClasseForm extends React.Component
         
     Salvar()
     {
-        debugger;
-
-        //let _interesseCoordenadas = window.CoordenadasObterParaInteresseObter();
-
         const _latitude =  window.document.getElementById("inputLatitude") != null ? window.document.getElementById("inputLatitude").value : 0;
         const _longitude =  window.document.getElementById("inputLongitude") != null ? window.document.getElementById("inputLongitude").value : 0;
 
         let entidade =  {
         id:this.state.id
         ,nomeFantasia:this.state.nomeFantasia
-//        ,latitude:_interesseCoordenadas.latitude
-//        ,longitude:_interesseCoordenadas.longitude
         ,latitude:_latitude
         ,longitude:_longitude
 };

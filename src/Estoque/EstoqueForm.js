@@ -10,8 +10,6 @@ class EstoqueForm extends React.Component
 {
     constructor(props)
     {        
-        debugger;
-
         super(props);
         if(this.props.entidade.id==0)
         {
@@ -184,7 +182,6 @@ class EstoqueForm extends React.Component
 
         if(entidade.id==0)
         {
-            debugger;
             let url = process.env.REACT_APP_SERVER_URL + "/api/estoque/salvar";
 
             axios.post(process.env.REACT_APP_SERVER_URL + "/api/estoque/salvar"

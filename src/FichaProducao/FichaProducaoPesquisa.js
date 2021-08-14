@@ -28,8 +28,6 @@ class FichaProducaoPesquisa extends React.Component
 
     Pesquisar()
     {
-        debugger;
-
         this.setState({visao:'processando'});
 
         // configura produto se informado
@@ -164,8 +162,6 @@ class FichaProducaoPesquisa extends React.Component
 
 MaterialApresentar(entidade)
 {
-    debugger;
-
     let retorno =
     <div>
         <p>{entidade.produto.nome}</p>

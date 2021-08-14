@@ -29,8 +29,6 @@ class MaterialPesquisa extends React.Component
 
     Pesquisar()
     {
-        debugger;
-
         this.setState({visao:'processando'});
 
         let _p = 'produtoId=';

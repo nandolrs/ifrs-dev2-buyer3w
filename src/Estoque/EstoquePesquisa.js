@@ -28,8 +28,6 @@ class EstoquePesquisa extends React.Component
 
     Pesquisar()
     {
-        debugger;
-
         this.setState({visao:'processando'});
 
         let _p = 'localId=<localId>&materialId=<materialId>';
