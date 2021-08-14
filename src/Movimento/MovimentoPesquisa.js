@@ -35,48 +35,61 @@ class MovimentoPesquisa extends React.Component
     {
         this.setState({visao:'processando'});
 debugger;
-        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>&localId=<localId>';
+        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>&tipo=<tipoId>&localId=<localId>';
         if(this.state.dataMovimento != '')
         {
            _p = _p.replace('<dataMovimento>', this.state.dataMovimento );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
-            _p = _p.replace('<localid>', '0' );
+            _p = _p.replace('<tipoId>', '0' );
+            _p = _p.replace('<localId>', '0' );
         } else if(this.state.quantidade > 0)  {
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', this.state.quantidade );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
-            _p = _p.replace('<localid>', '0' );
+            _p = _p.replace('<tipoId>', '0' );
+            _p = _p.replace('<localId>', '0' );
         }else if(this.state.estabelecimentoId > 0){
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', this.state.estabelecimentoId );
             _p = _p.replace('<materialId>', '0' );
-            _p = _p.replace('<localid>', '0' );
+            _p = _p.replace('<tipoId>', '0' );
+            _p = _p.replace('<localId>', '0' );
         }else if(this.state.materialId > 0){
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', this.state.materialId );
-            _p = _p.replace('<localid>', '0' );
+            _p = _p.replace('<tipoId>', '0' );
+            _p = _p.replace('<localId>', '0' );
         }else if(this.state.localid > 0){
             _p = _p.replace('<dataMovimento>', '' );
              _p = _p.replace('<quantidade>', '0' );
              _p = _p.replace('<estabelecimentoId>', '0' );
              _p = _p.replace('<materialId>',  '0' );
-             _p = _p.replace('<localid>', this.state.localId);
+             _p = _p.replace('<tipoId>', '0' );
+             _p = _p.replace('<localId>', this.state.localId);
+         }
+         else if(this.state.tipoId > 0){
+            _p = _p.replace('<dataMovimento>', '' );
+             _p = _p.replace('<quantidade>', '0' );
+             _p = _p.replace('<estabelecimentoId>', '0' );
+             _p = _p.replace('<materialId>',  '0' );
+             _p = _p.replace('<tipoId>', this.state.tipoId );
+             _p = _p.replace('<localId>', '0');
          }
         else{
             _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
-            _p = _p.replace('<localid>', '0' );
+            _p = _p.replace('<tipoId>', '0' );
+            _p = _p.replace('<localId>', '0');
         }
         
-
         var entidade={codigo:0
             ,p:_p
         };

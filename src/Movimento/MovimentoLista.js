@@ -25,7 +25,11 @@ class MovimentoLista extends React.Component
       return "Compra";
     }else if(tipo == 4){
       return "Cotação";
-    }else{
+    }
+    else if(tipo == 5){
+      return "Lista";
+    }
+    else{
       return "Indefinido";
     }
   }
@@ -64,7 +68,7 @@ class MovimentoLista extends React.Component
       <p>Valor Total</p>
       <p>{ (entidade.valorTotal)}</p>
       <p>Estabelecimento</p>
-      <p>{ (entidade.estabelecimento.nomeFantasia)}</p>
+      <p>{entidade.estabelecimento != null ?  entidade.estabelecimento.nomeFantasia : ''}</p>
    </div>
   </div>
   <br/>
