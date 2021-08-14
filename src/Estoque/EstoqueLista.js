@@ -37,13 +37,14 @@ class EstoqueLista extends React.Component
   <div  class="card"  onClick={(e) => this.props.OnConsultar({id:entidade.id})} >
     <div class="card-header">
       <h5>Produto</h5>
-    {entidade.local.nome}
+    {entidade.material.produto.nome}
+
     </div>
     <div class="card-body">
       <h5>Local</h5>
       {entidade.local.nome}
       <h5>Embalagem</h5>
-      {entidade.material.produto.nome + ' - ' + entidade.material.embalagem.nome + ' com ' + entidade.material.embalagem.capacidade + ' ' + entidade.material.embalagem.unidadeMedida.nome }
+      {entidade.material.embalagem.nome + ' com ' + entidade.material.embalagem.capacidade + ' ' + entidade.material.embalagem.unidadeMedida.nome }
       <h5>Estoque</h5>
       {entidade.quantidade }
     </div>
