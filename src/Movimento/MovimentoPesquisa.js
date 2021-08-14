@@ -22,6 +22,7 @@ class MovimentoPesquisa extends React.Component
             ,materialId:0
             ,estabelecimentoId:0
             ,tipoId:0
+            ,localId:0
             ,visao:process.env.REACT_APP_VISAO_INFORMANDO
     
         };
@@ -32,34 +33,45 @@ class MovimentoPesquisa extends React.Component
     {
         this.setState({visao:'processando'});
 debugger;
-        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>';
+        let _p = 'dataMovimento=<dataMovimento>&quantidade=<quantidade>&estabelecimentoId=<estabelecimentoId>&materialId=<materialId>&localId=<localId>';
         if(this.state.dataMovimento != '')
         {
            _p = _p.replace('<dataMovimento>', this.state.dataMovimento );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
+            _p = _p.replace('<localid>', '0' );
         } else if(this.state.quantidade > 0)  {
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', this.state.quantidade );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
+            _p = _p.replace('<localid>', '0' );
         }else if(this.state.estabelecimentoId > 0){
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', this.state.estabelecimentoId );
             _p = _p.replace('<materialId>', '0' );
+            _p = _p.replace('<localid>', '0' );
         }else if(this.state.materialId > 0){
            _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', this.state.materialId );
-        }else{
+            _p = _p.replace('<localid>', '0' );
+        }else if(this.state.localid > 0){
+            _p = _p.replace('<dataMovimento>', '' );
+             _p = _p.replace('<quantidade>', '0' );
+             _p = _p.replace('<estabelecimentoId>', '0' );
+             _p = _p.replace('<materialId>',  '0' );
+             _p = _p.replace('<localid>', this.state.localId);
+         }
+        else{
             _p = _p.replace('<dataMovimento>', '' );
             _p = _p.replace('<quantidade>', '0' );
             _p = _p.replace('<estabelecimentoId>', '0' );
             _p = _p.replace('<materialId>', '0' );
-
+            _p = _p.replace('<localid>', '0' );
         }
         
 
@@ -149,6 +161,7 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
     
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/material/listar",window.getCabeca()).then((resposta)=>this.Listou('material',resposta));
         axios.get(process.env.REACT_APP_SERVER_URL + "/api/estabelecimento/listar",window.getCabeca()).then((resposta)=>this.Listou('estabelecimento',resposta));
+        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/listar",window.getCabeca()).then((resposta)=>this.Listou('local',resposta));
     }
 
     Listou(tipo, resposta)
@@ -164,6 +177,13 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
              if(resposta.request.status == 200)
              {
                  this.setState({listaEstabelecimento:resposta.data.dadosLista, listaBuscouEstabelecimento:true});
+             }
+          }
+          if(tipo=='local')
+         {
+             if(resposta.request.status == 200)
+             {
+                 this.setState({listaLocal:resposta.data.dadosLista, listaBuscouLocal:true});
              }
           }             
     }
@@ -206,6 +226,32 @@ let url = process.env.REACT_APP_SERVER_URL + "/api/movimento/pesquisar" + p;
                 <option value="0" >Informe o tipo</option>
 
                 </select>
+
+                {this.state.listaBuscouLocal==true ?
+                <select 
+                    class="form-control form-control-sm" 
+                    id="InputLocal" 
+                    onChange={(o)=>this.setState({localId:o.target.value})}
+                    defaultValue={this.state.localId}
+                    value={this.state.LocalId}
+                >
+            
+                {this.state.listaLocal != null ?
+
+                    this.state.listaLocal.map( (entidade) =>
+                    <option 
+                        value={entidade.id} 
+                        >{entidade.nome }</option> 
+                    )
+                : ""
+                }
+                <option value="0" >Informe o Local</option>
+
+                </select>
+                :
+                <div></div>
+            }
+
 
                 {this.state.listaBuscou==true ?
                 <select 
