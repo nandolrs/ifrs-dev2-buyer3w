@@ -34,6 +34,7 @@ class MaestroView extends React.Component
             ,autenticado:false
             ,listaAutorizacao:'<INICIO>*<FIM>'
 
+            ,autenticou:false
        };
     
        this.Autenticar();
@@ -59,6 +60,12 @@ class MaestroView extends React.Component
         }
     }
 
+    OnAutenticou()
+    {
+        debugger;
+        this.setState({menu:'local' ,autenticado:true});
+    }
+
     Autenticou(resposta)
     {
         let retorno=null;
@@ -77,9 +84,7 @@ class MaestroView extends React.Component
             else
             { 
                 if (resposta.data.confirmacao == "Sucesso!") {
-                    this.setState({menu:'local'
-                    ,autenticado:true});
-                }
+                    this.OnAutenticou();                }
                  else{
                      
                     window.clearCookie("token");
@@ -98,6 +103,13 @@ class MaestroView extends React.Component
         this.setState({menu:'local'});
     }
 
+    Terminar()
+    {
+        debugger;
+
+        this.setState({auteticou:false, menu:'usuarioAutenticador'});
+    }
+
     render()
     {
         return(
@@ -108,7 +120,8 @@ class MaestroView extends React.Component
                         token={this.state.token}
                         autenticado={this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
-                        OnClick={() => this.Iniciar()}                            
+                        OnClick={() => this.Iniciar()}        
+                        OnSair={() => this.Terminar()}        
                         OnLocalPesquisar={() => this.setState({menu:'local'})}
                         OnEmbalagemPesquisar={() => this.setState({menu:'embalagem'})}
                         OnMovimentoPesquisar={() => this.setState({menu:'movimento'})}
@@ -220,7 +233,9 @@ class MaestroView extends React.Component
                 : "" 
                 }   
 
-                {window.location.pathname=='/usuarioautenticador'  || this.state.menu=='usuarioAutenticador' ?
+                {this.state.autenticou==false
+                && ( window.location.pathname=='/usuarioautenticador' 
+                 || this.state.menu=='usuarioAutenticador') ?
                     <UsuarioAutenticadorView 
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
@@ -228,6 +243,8 @@ class MaestroView extends React.Component
                         OnEvento={(estado, acao) => this.setState({visao:acao})} 
                         OnIniciar={()=>this.Iniciar()}
                         OnVoltar = {() => this.setState({visao:"painel.noexiste"})} 
+                        OnAutenticou = {() => this.OnAutenticou()} 
+                        
                     />
                 : "" 
                 }   

@@ -165,7 +165,7 @@ class UsuarioAutenticadorForm extends React.Component
 
                     window.setCookie("token", resposta.data.dados.sessao, 1);
                     retorno = {visao:"mensagem.sucesso",mensagens:window.ToMensagens("Joinha.")};
-                
+                    this.props.OnAutenticou({nome:this.state.nome, email:this.state.email });
                 }
                  else{
                      

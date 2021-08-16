@@ -40,6 +40,13 @@ class UsuarioAutenticadorView extends React.Component
         }
     }
 
+    OnAutenticou(entidade)
+    {
+        debugger;
+        
+        window.setCookie("usuario.email",  entidade.email, 1);
+        this.props.OnAutenticou();
+    }
     render()
     {
 
@@ -60,7 +67,8 @@ class UsuarioAutenticadorView extends React.Component
                     objetoAutorizacao={this.state.objetoAutorizacao}
                     processando={this.state.processando}
                     OnVoltar={() => this.Voltar("pesquisar") }
-            /> 
+                    OnAutenticou={(entidade) => this.OnAutenticou(entidade) }
+                /> 
             
         </div>
 

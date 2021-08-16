@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-//import UsuarioContaView from '../Usuario/UsuarioContaView';
+import UsuarioContaView from '../Usuario/UsuarioContaView';
 
 class MenuView extends React.Component
 {
@@ -13,7 +13,9 @@ class MenuView extends React.Component
 
     Sair()
     {
-      this.props.OnClick();
+      //this.props.OnClick();
+      //windows.setCookie();
+      this.props.OnSair();
     }
 
 
@@ -39,7 +41,13 @@ render()
                 {this.props.autenticado && this.props.listaAutorizacao != "" ?
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
-                    
+
+                    {/* conta  */}
+
+                    <UsuarioContaView 
+                      OnSair={()=> this.Sair()}
+                    />
+
                     {/* cadastros */}
 
                     <li class="nav-item dropdown">
