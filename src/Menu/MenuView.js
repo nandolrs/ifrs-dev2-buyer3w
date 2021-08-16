@@ -21,6 +21,7 @@ class MenuView extends React.Component
 
 render()
 {
+  if(!this.props.autenticado){return ('')}
       return(
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
