@@ -117,6 +117,12 @@ render()
                         : ""
                       }
 
+                      {/* receita */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnReceitaPesquisar()}>Receita</a>
+                        : ""
+                      }
 
                       </div>
                     </li>

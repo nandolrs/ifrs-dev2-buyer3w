@@ -12,6 +12,8 @@ import UsuarioAutenticadorView from '../Usuario/UsuarioAutenticadorView';
 import MaterialView from '../Material/MaterialView';
 import EstoqueView from '../Estoque/EstoqueView';
 import MenuView from '../Menu/MenuView';
+import ReceitaView from '../Receita/ReceitaView';
+
 
 import { isNumericLiteral } from '@babel/types';
 import axios from 'axios';
@@ -130,6 +132,7 @@ class MaestroView extends React.Component
                         OnUsuarioAutenticadorPesquisar={() => this.setState({menu:'usuarioAutenticador'})}
                         OnFichaProducaoPesquisar={() => this.setState({menu:'fichaProducao'})}
                         OnEstoquePesquisar={() => this.setState({menu:'estoque'})}
+                        OnReceitaPesquisar={() => this.setState({menu:'receita'})}
 
                     />
 
@@ -281,7 +284,19 @@ class MaestroView extends React.Component
                         OnVoltar = {() => this.setState({visao:"painel.noexiste"})} 
                     />
                 : "" 
-                }   
+                }
+
+                {window.location.pathname=='/receita' || this.state.menu=='receita' ?
+                    <ReceitaView
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao}
+                        OnEvento={(estado, acao) => this.setState({visao:acao})}
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})}
+                    />
+                : ""
+                }
 
             </div>
         );
