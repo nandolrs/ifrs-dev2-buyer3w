@@ -272,7 +272,7 @@ class UsuarioForm extends React.Component
                 value={this.state.email}
             />
 
-            <input type="text" class="form-control" id="inputSenha"  
+            <input type="password" class="form-control" id="inputSenha"  
                 aria-describedby="senhaHelp" 
                 placeHolder="Informe a senha." 
                 onChange={(o)=>this.setState({senha:o.target.value})}
