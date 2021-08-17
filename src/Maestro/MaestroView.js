@@ -33,8 +33,6 @@ class MaestroView extends React.Component
             ,token:''
             ,autenticado:false
             ,listaAutorizacao:'<INICIO>*<FIM>'
-
-            ,autenticou:false
        };
     
        this.Autenticar();
@@ -105,9 +103,7 @@ class MaestroView extends React.Component
 
     Terminar()
     {
-        debugger;
-
-        this.setState({auteticou:false, menu:'usuarioAutenticador'});
+        this.setState({autenticado:false, menu:'usuarioAutenticador'});
     }
 
     render()
@@ -233,7 +229,7 @@ class MaestroView extends React.Component
                 : "" 
                 }   
 
-                {this.state.autenticou==false
+                {this.state.autenticado==false
                 && ( window.location.pathname=='/usuarioautenticador' 
                  || this.state.menu=='usuarioAutenticador') ?
                     <UsuarioAutenticadorView 
