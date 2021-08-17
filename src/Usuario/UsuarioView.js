@@ -83,7 +83,7 @@ class UsuarioView extends React.Component
                     objetoAutorizacao={this.state.objetoAutorizacao}
                     processando={this.state.processando}
                     OnVoltar={() => this.Voltar("pesquisar") }
-                    OnLogin={() => this.OnLogin() }
+                    OnLogin={() => this.props.OnLogin() }
             /> : ""
             }
         </div>

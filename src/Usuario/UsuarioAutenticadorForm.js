@@ -241,7 +241,7 @@ class UsuarioAutenticadorForm extends React.Component
 <div class="card">
   <div class="card-header">
     
-    {this.state.id == 0 ? "I N C L U I R" : "A L T E R A R"}
+    {this.state.id == 0 ? "C R E D E N C I A I S" : "C R E D E N C I A I S"}
   </div>
   <div class="card-body">
 
