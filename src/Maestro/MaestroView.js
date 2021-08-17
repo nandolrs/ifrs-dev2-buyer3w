@@ -213,7 +213,8 @@ class MaestroView extends React.Component
                         OnEvento={(estado, acao) => this.setState({visao:acao})} 
                         OnIniciar={()=>this.Iniciar()}
                         OnVoltar = {() => this.setState({visao:"painel.pesquisar"})} 
-                    />
+                        OnLogin={() => this.setState({menu:'usuarioAutenticador'}) }
+                        />
                 : "" 
                 }   
 
@@ -240,7 +241,7 @@ class MaestroView extends React.Component
                         OnIniciar={()=>this.Iniciar()}
                         OnVoltar = {() => this.setState({visao:"painel.noexiste"})} 
                         OnAutenticou = {() => this.OnAutenticou()} 
-                        
+                        OnCadastrar  = {() => this.setState({menu:'usuario'})}                                                 
                     />
                 : "" 
                 }   

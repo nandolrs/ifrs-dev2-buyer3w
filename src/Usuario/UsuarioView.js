@@ -61,6 +61,7 @@ class UsuarioView extends React.Component
                     OnIncluir={() => this.setState({visao:"incluir", entidade:this.state.entidadeInicio}) }
                     OnPesquisar={(estado) => this.setState({visao:'listar', entidade:estado.entidade})}
                     OnListar={(estado) => this.setState({visao:'listar', entidade:estado.entidade})}
+                    OnLogin={() => this.props.OnLogin() }
                 /> : ""
             }
 
@@ -82,6 +83,7 @@ class UsuarioView extends React.Component
                     objetoAutorizacao={this.state.objetoAutorizacao}
                     processando={this.state.processando}
                     OnVoltar={() => this.Voltar("pesquisar") }
+                    OnLogin={() => this.OnLogin() }
             /> : ""
             }
         </div>

@@ -289,10 +289,9 @@ class UsuarioAutenticadorForm extends React.Component
             OnSalvar={() => this.Salvar()}
             OnVoltar={() => this.props.OnVoltar()}
         />
-
+        
+        <br/>
         <button id='inputCadastrar'  type="button" class="btn btn-secondary btn-lg btn-block" onClick={() => this.props.OnCadastrar() }>Cadastrar  </button>
-
-
 
     </fieldset>
 

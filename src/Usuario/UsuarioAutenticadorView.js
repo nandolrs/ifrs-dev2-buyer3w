@@ -68,7 +68,8 @@ class UsuarioAutenticadorView extends React.Component
                     processando={this.state.processando}
                     OnVoltar={() => this.Voltar("pesquisar") }
                     OnAutenticou={(entidade) => this.OnAutenticou(entidade) }
-                    OnCadastrar={() => this.OnCadastrar(this.setState({menu:'usuarioAutenticador'})) }
+                    OnCadastrar={() => this.props.OnCadastrar()}
+
                 /> 
             
         </div>

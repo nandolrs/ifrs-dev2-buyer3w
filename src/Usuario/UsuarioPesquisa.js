@@ -170,6 +170,8 @@ class UsuarioPesquisa extends React.Component
                     OnPesquisar={() => this.Pesquisar()}
                 />
 
+                <br/>
+                <button id='inputLogin'  type="button" class="btn btn-secondary btn-lg btn-block" onClick={() => this.props.OnLogin() }>Entrar  </button>
 
             </fieldset>
                                     
