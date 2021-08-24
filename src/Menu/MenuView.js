@@ -137,18 +137,17 @@ render()
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Operações</a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                      {/* movimento */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnMovimentoPesquisar()}>Movimento</a>
-                        : ""
-                      }
-
-
                       {/* estoque */}
 
                       {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
                         <a class="dropdown-item"          href="#" onClick={() => this.props.OnEstoquePesquisar()}>Estoque</a>
+                        : ""
+                      }
+
+                      {/* movimento */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnMovimentoPesquisar()}>Movimento</a>
                         : ""
                       }
 

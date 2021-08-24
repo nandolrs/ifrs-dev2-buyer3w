@@ -262,7 +262,7 @@ class LocalForm extends React.Component
         if(entidade.nome.length < 3)
         {
             retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres.")
+            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres no nome.")
             };
             validar = {ok:false, estado:retorno};
             return validar;

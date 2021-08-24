@@ -49,7 +49,17 @@ class MaterialForm extends React.Component
         ,produto:{id:this.state.produtoId}
         ,embalagem:{id:this.state.embalagemId}
         };
-        this.SisManterSalvar(entidade);
+
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        }
     }
 
     
@@ -267,6 +277,32 @@ class MaterialForm extends React.Component
             }
     
         }
+    }
+
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
+
+        if(entidade.produto.id == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o produto.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.embalagem.id == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe a embalagem.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+        return validar;
+
     }
 
 

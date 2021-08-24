@@ -48,8 +48,18 @@ class ClasseForm extends React.Component
         ,nomeFantasia:this.state.nomeFantasia
         ,latitude:_latitude
         ,longitude:_longitude
-};
-        this.SisManterSalvar(entidade);
+        };
+
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        }
     }
 
     Excluir()
@@ -243,6 +253,32 @@ class ClasseForm extends React.Component
         this.Evento(retorno, 'consultou');
     }
 
+
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
+
+        if(entidade.nomeFantasia.length == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o nome fantasia.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.nomeFantasia.length < 3)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres no nome fantasia.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+        return validar;
+
+    }
 
     render()
     {
