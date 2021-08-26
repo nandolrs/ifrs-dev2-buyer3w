@@ -47,6 +47,9 @@ class EstoqueForm extends React.Component
         ,nome:'none'
         ,local:{id:this.state.localId}
         ,material:{id:this.state.materialId}
+        ,pontoMaximo:this.state.pontoMaximo
+        ,pontoMinimo:this.state.pontoMinimo
+        ,pontoPedido:this.state.pontoPedido
         };
         this.SisManterSalvar(entidade);
     }
@@ -157,6 +160,8 @@ class EstoqueForm extends React.Component
         }
         else if(acao =='consultou')
         {
+            debugger;
+
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
