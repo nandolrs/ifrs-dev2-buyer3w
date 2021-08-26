@@ -53,26 +53,6 @@ render()
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastros</a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                      {/* local */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                      <a class="dropdown-item"   href="#" onClick={() => this.props.OnLocalPesquisar()}>Local</a>
-                      : ""
-                      }
-
-                      {/* embalagem */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnEmbalagemPesquisar()}>Embalagem</a>
-                        : ""
-                      }
-
-                      {/* unidade de medida */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnUnidadeMedidaPesquisar()}>Unidade de medida</a>
-                        : ""
-                      }
 
                       {/* classe */}
 
@@ -81,25 +61,10 @@ render()
                         : ""
                       }
 
-
-                      {/* produto */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnProdutoPesquisar()}>Produto</a>
-                        : ""
-                      }
-
-                      {/* ficha de producao (receita) */}
+                      {/* embalagem */}
 
                       {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnFichaProducaoPesquisar()}>Ficha de produção (receita)</a>
-                        : ""
-                      }
-
-                      {/* usuario */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnUsuarioPesquisar()}>Usuário</a>
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnEmbalagemPesquisar()}>Embalagem</a>
                         : ""
                       }
 
@@ -110,10 +75,31 @@ render()
                         : ""
                       }
 
+                      {/* ficha de producao (receita) */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnFichaProducaoPesquisar()}>Ficha de produção (receita)</a>
+                        : ""
+                      }
+
+                      {/* local */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                      <a class="dropdown-item"   href="#" onClick={() => this.props.OnLocalPesquisar()}>Local</a>
+                      : ""
+                      }
+
                       {/* material */}
 
                       {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
                         <a class="dropdown-item"          href="#" onClick={() => this.props.OnMaterialPesquisar()}>Material</a>
+                        : ""
+                      }
+
+                      {/* produto */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnProdutoPesquisar()}>Produto</a>
                         : ""
                       }
 
@@ -123,6 +109,23 @@ render()
                         <a class="dropdown-item"          href="#" onClick={() => this.props.OnReceitaPesquisar()}>Receita</a>
                         : ""
                       }
+
+                      {/* unidade de medida */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnUnidadeMedidaPesquisar()}>Unidade de medida</a>
+                        : ""
+                      }
+
+                      {/* usuario */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnUsuarioPesquisar()}>Usuário</a>
+                        : ""
+                      }
+
+
+
 
                       </div>
                     </li>
@@ -134,18 +137,17 @@ render()
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Operações</a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                      {/* movimento */}
-
-                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
-                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnMovimentoPesquisar()}>Movimento</a>
-                        : ""
-                      }
-
-
                       {/* estoque */}
 
                       {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
                         <a class="dropdown-item"          href="#" onClick={() => this.props.OnEstoquePesquisar()}>Estoque</a>
+                        : ""
+                      }
+
+                      {/* movimento */}
+
+                      {window.AutorizacaoConsultar("*", this.props.listaAutorizacao) ?
+                        <a class="dropdown-item"          href="#" onClick={() => this.props.OnMovimentoPesquisar()}>Movimento</a>
                         : ""
                       }
 

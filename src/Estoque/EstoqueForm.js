@@ -294,6 +294,7 @@ class EstoqueForm extends React.Component
                     onChange={(o)=>this.setState({localId:o.target.value})}
                     defaultValue={this.state.localId}
                     value={this.state.localId}
+                    disabled='true'
                 >
             
                 {this.state.listaLocal != null ?
@@ -318,6 +319,7 @@ class EstoqueForm extends React.Component
                     id="InputMaterial" 
                     onChange={(o)=>this.setState({materialId:o.target.value})}
                     defaultValue={this.state.materialId}
+                    disabled='true'
                     value={this.state.materialId}
                 >
             
@@ -338,7 +340,8 @@ class EstoqueForm extends React.Component
             }
 
 
-            <input type="text" class="form-control" id="inputQuantidade"  
+            <input type="text" class="form-control" id="inputQuantidade" 
+                    disabled 
                     aria-describedby="quantidadeHelp" 
                     placeHolder="Quantidade." 
                     onChange={(o)=>this.setState({quantidade:o.target.value})}

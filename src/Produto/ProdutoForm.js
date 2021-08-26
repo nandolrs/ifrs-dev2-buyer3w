@@ -45,7 +45,16 @@ class ProdutoForm extends React.Component
         ,nome:this.state.nome
         ,classe:{id:this.state.classeId}
         };
-        this.SisManterSalvar(entidade);
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        }
     }
 
     
@@ -254,6 +263,41 @@ class ProdutoForm extends React.Component
         }
     }
 
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
+
+        if(entidade.nome.length == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.nome.length < 3)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres no nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.classe.id == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe a classe.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        return validar;
+
+    }
 
     render()
     {

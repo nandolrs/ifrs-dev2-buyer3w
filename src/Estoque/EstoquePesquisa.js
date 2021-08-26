@@ -53,6 +53,8 @@ class EstoquePesquisa extends React.Component
             ,p:_p
         };
 
+        debugger;
+        
         this.SisManterPesquisar(entidade);
     }
     
@@ -150,6 +152,16 @@ class EstoquePesquisa extends React.Component
         }
     }
 
+    OnIncluir()
+    {
+        
+        let retorno = {visao:"mensagem.erro"
+        ,mensagens:window.ToMensagens("Utilize a movimentação (Operações/Movimento) para incluir estoque.")
+        };
+        this.setState(retorno);
+
+
+    }
 
     render()
     {
@@ -235,7 +247,7 @@ class EstoquePesquisa extends React.Component
                 <PesquisaBotoes 
                     listaAutorizacao={this.props.listaAutorizacao}
                     objetoAutorizacao={this.props.objetoAutorizacao}
-                    OnIncluir={() => this.props.OnIncluir()}
+                    OnIncluir={() => this.OnIncluir()}
                     OnPesquisar={() => this.Pesquisar()}
                 />
 
