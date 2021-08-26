@@ -49,8 +49,18 @@ class EmbalagemForm extends React.Component
         ,capacidade:this.state.capacidade
         ,unidadeMedida:{id:this.state.unidademedidaId}
         };
-        this.SisManterSalvar(entidade);
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        }
     }
+    
 
     Excluir()
     {
@@ -256,6 +266,40 @@ class EmbalagemForm extends React.Component
     
     
         }
+    }
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
+
+        if(entidade.nome.length == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.nome.length < 3)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres no nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.capacidade < 1)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe uma capacidade maior que zero")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+        return validar;
+
     }
 
 
