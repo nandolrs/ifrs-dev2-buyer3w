@@ -323,6 +323,7 @@ class EmbalagemForm extends React.Component
                 placeHolder="Informe o nome." 
                 onChange={(o)=>this.setState({nome:o.target.value})}
                 value={this.state.nome}
+                
             />
             <input type="text" class="form-control" id="inputCapacidade"  
                 aria-describedby="capacidadeHelp" 
