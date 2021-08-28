@@ -13,6 +13,7 @@ import MaterialView from '../Material/MaterialView';
 import EstoqueView from '../Estoque/EstoqueView';
 import MenuView from '../Menu/MenuView';
 import ReceitaView from '../Receita/ReceitaView';
+import PainelView from '../Painel/PainelView';
 
 
 import { isNumericLiteral } from '@babel/types';
@@ -288,6 +289,18 @@ class MaestroView extends React.Component
 
                 {window.location.pathname=='/receita' || this.state.menu=='receita' ?
                     <ReceitaView
+                        autenticado = {this.state.autenticado}
+                        listaAutorizacao={this.state.listaAutorizacao}
+                        visao = {this.state.visao}
+                        OnEvento={(estado, acao) => this.setState({visao:acao})}
+                        OnIniciar={()=>this.Iniciar()}
+                        OnVoltar = {() => this.setState({visao:"painel.pesquisar"})}
+                    />
+                : ""
+                }
+
+                {window.location.pathname=='/painel' || this.state.menu=='painel' ?
+                    <PainelView
                         autenticado = {this.state.autenticado}
                         listaAutorizacao={this.state.listaAutorizacao}
                         visao = {this.state.visao}
