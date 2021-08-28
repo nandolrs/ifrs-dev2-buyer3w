@@ -340,3 +340,10 @@ class PainelForm extends React.Component
 
 export default PainelForm;
 
+/*
+
+https://ifrs-dev2-buyer.herokuapp.com/api/info/pesquisarEstoquePorClasse?nome
+http://localhost:8080/api/info/pesquisarEstoquePorClasse?nome
+https://newbedev.com/how-to-use-onload-in-react
+https://developers.google.com/chart/interactive/docs/basic_draw_chart
+*/
