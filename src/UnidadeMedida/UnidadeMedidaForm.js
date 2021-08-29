@@ -288,7 +288,7 @@ debugger;
         if(entidade.sigla.length < 2)
         {
             retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Informe uma unidade de medida com pelo menos 2 caracteres")
+            ,mensagens:window.ToMensagens("Informe uma unidade de medida com pelo menos 2 caracteres ")
             };
             validar = {ok:false, estado:retorno};
             return validar;
