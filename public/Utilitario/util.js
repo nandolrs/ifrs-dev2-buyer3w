@@ -690,3 +690,59 @@ function hospedeiro()
   return retorno;
 
 }
+
+function drawChart1() {
+
+ // google.charts.setOnLoadCallback(drawChart);
+
+ //google.charts.load('current', {'packages':['corechart']});
+
+  debugger;
+  
+  // Create the data table.
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Topping');
+  data.addColumn('number', 'Slices');
+  data.addRows([
+    ['Mushrooms', 3],
+    ['Onions', 1],
+    ['Olives', 1],
+    ['Zucchini', 1],
+    ['Pepperoni', 2]
+  ]);
+  
+  // Set chart options
+  var options = {'title':'How Much Pizza I Ate Last Night',
+                 'width':400,
+                 'height':300};
+  
+  // Instantiate and draw our chart, passing in some options.
+  var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+  chart.draw(data, options);
+  }
+  
+
+  function drawChart(entidade) {
+
+    if(entidade == null){return;}
+   
+     debugger;
+
+     google.load("visualization", "1", {packages: ["corechart"]});
+
+     // Create the data table.
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'Topping');
+     data.addColumn('number', 'Slices');
+     data.addRows(entidade.linhas);
+     
+     // Set chart options
+     var options = {'title':entidade.titulo,
+                    'width':400,
+                    'height':300};
+     
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+     chart.draw(data, options);
+     }
+     
