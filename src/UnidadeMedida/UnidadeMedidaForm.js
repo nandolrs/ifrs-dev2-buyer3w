@@ -45,7 +45,18 @@ class UnidadeMedidaForm extends React.Component
         ,nome:this.state.nome
         ,sigla:this.state.sigla
         };
-        this.SisManterSalvar(entidade);
+        
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        
+    }
     }
 
     Excluir()
@@ -250,6 +261,40 @@ debugger;
 
         //this.props.OnEvento(retorno, 'consultou');
         this.Evento(retorno, 'consultou');
+    }
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
+
+        if(entidade.nome.length == 0)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.nome.length < 3)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe ao menos 3 caracteres no nome.")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.sigla.length < 2)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe uma unidade de medida")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+        return validar;
+
     }
 
 
