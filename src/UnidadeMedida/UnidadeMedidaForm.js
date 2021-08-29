@@ -275,7 +275,7 @@ debugger;
             validar = {ok:false, estado:retorno};
             return validar;
         }
-
+//testando pelo intellij
         if(entidade.nome.length < 3)
         {
             retorno = {visao:"mensagem.erro"
