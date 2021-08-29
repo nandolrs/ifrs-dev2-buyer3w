@@ -296,6 +296,7 @@ debugger;
         return validar;
 
     }
+    //ok
 
 
     render()
