@@ -64,7 +64,8 @@ class MaestroView extends React.Component
     OnAutenticou()
     {
         debugger;
-        this.setState({menu:'local' ,autenticado:true});
+        //this.setState({menu:'local' ,autenticado:true});
+        this.setState({menu:'painel' ,autenticado:true});
     }
 
     Autenticou(resposta)

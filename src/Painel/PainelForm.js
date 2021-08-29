@@ -11,6 +11,7 @@ class PainelForm extends React.Component
     constructor(props)
     {        
         super(props);
+        /*
         if(this.props.entidade.id==0)
         {
             this.state={
@@ -33,12 +34,23 @@ class PainelForm extends React.Component
 
            //this.SisManterConsultar(entidade);
         }
+        */
+        this.state={
+            id:0
+           ,nome:''
+           ,visao:process.env.REACT_APP_VISAO_INFORMANDO
+           ,mensagens:null
+
+       };
+        this.SisManterConsultar({});
+
     }
         
     componentDidMount()
     {
 //        debugger;
-        window.drawChart();
+        //window.drawChart();
+        //this.GraficoMontar();
     }
     Salvar()
     {
@@ -134,13 +146,18 @@ class PainelForm extends React.Component
         }
         else if(acao =='consultou')
         {
-
+/*
             let estado={
                 id:resposta.entidade.id
                ,nome:resposta.entidade.nome
                ,visao:process.env.REACT_APP_VISAO_INFORMANDO
             };
-            this.setState(estado);
+*/            
+            //this.setState(estado);
+
+            debugger;
+
+            this.GraficoMontar(resposta.entidadePesquisa);
         }
         else if(acao =='excluiu')
         {
@@ -173,9 +190,35 @@ class PainelForm extends React.Component
         }
     }
 
+    GraficoMontar(entidade)
+    {
+        let entidade_ = [
+            {id:0, nome:'frutas', quantidade:10}
+            ,{id:0, nome:'verduras', quantidade:90}
+        ];
+
+        debugger;
+
+        if(entidade != null){entidade_ = entidade;}
+
+        let titulo_ ='Estoque por Classe';
+
+        let linhas_ = [];
+
+        entidade_.map((e) =>
+            {
+                linhas_.push([e.classeNome, e.estoqueQuantidade]);
+            }
+
+        );
+        window.drawChart({titulo: titulo_
+        ,linhas: linhas_
+        });
+
+    }
+
     Salvou(resposta)
     {
-        debugger;
         
         var retorno = null;
 
@@ -212,7 +255,9 @@ class PainelForm extends React.Component
     SisManterConsultar(entidade)
     {
 
-        axios.get(process.env.REACT_APP_SERVER_URL + "/api/local/consultar/" + entidade.id
+        let url = '/api/info/pesquisarEstoquePorClasse?nome';
+
+        axios.get(process.env.REACT_APP_SERVER_URL + url // "/api/local/consultar/" + entidade.id
             ,window.getCabeca()
             )
             .then((resposta)=>this.Consultou(resposta))
@@ -221,6 +266,8 @@ class PainelForm extends React.Component
 
     Consultou(resposta)
     {
+        debugger;
+
         var retorno = null;
 
         if(resposta.status == 200)
@@ -238,7 +285,8 @@ class PainelForm extends React.Component
             {
                 retorno = {visao:"consultar"
                     ,entidade:resposta.data.dados
-                    ,entidadePesquisa:resposta.data.dados
+                    //,entidadePesquisa:resposta.data.dados
+                    ,entidadePesquisa:resposta.data.dadosLista
                     ,mensagens:window.ToMensagens("Consulta retornou com sucesso.")
                 };
             }
@@ -288,7 +336,7 @@ class PainelForm extends React.Component
 
 <div class="card">
   <div class="card-header">
-    {this.state.id == 0 ? "I N C L U I R" : "A L T E R A R"}
+    {"ESTOQUE POR CLASSE"}
   </div>
   <div class="card-body">
 
@@ -297,7 +345,7 @@ class PainelForm extends React.Component
         <div class="form-group">
 
 
-        <div id="chart_div" onload1='drawChart()'>  chart </div>
+        <div id="chartdiv" onload1='drawChart()'>  chart </div>
 
             <SisMensagemView
                 visao={this.state.visao}
@@ -315,7 +363,7 @@ class PainelForm extends React.Component
 
         </div>
 
-        <FormBotoes
+        {/* <FormBotoes
             id={this.props.entidade.id} 
             listaAutorizacao={this.props.listaAutorizacao}
             objetoAutorizacao={this.props.objetoAutorizacao}
@@ -323,7 +371,7 @@ class PainelForm extends React.Component
             OnExcluir={() => this.Excluir()}
             OnSalvar={() => this.Salvar()}
             OnVoltar={() => this.props.OnVoltar()}
-        />
+        /> */}
 
 
     </fieldset>

@@ -5,6 +5,7 @@
 
 >
   <head>
+
     <!-- outros -->
 
     <meta charset="utf-8" />
@@ -52,17 +53,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="./utilitario/estilo.css">
 
-    <!--  gráficos do google charts -->
+        <!--  gráficos do google charts -->
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <script>
-            google.charts.load('current', {'packages':['corechart']});
-//            google.charts.setOnLoadCallback(drawChart);
+        <script>
+                google.charts.load('current', {'packages':['corechart']});
+                google.load("visualization", "1", {packages: ["corechart"]});
 
-
-
-    </script>
+                google.charts.setOnLoadCallback(drawChart);
+        </script>
+    
   </head>
   <body>
 

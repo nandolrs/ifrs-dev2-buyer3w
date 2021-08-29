@@ -691,8 +691,11 @@ function hospedeiro()
 
 }
 
+function drawChart1() {
 
-function drawChart() {
+ // google.charts.setOnLoadCallback(drawChart);
+
+ //google.charts.load('current', {'packages':['corechart']});
 
   debugger;
   
@@ -714,7 +717,32 @@ function drawChart() {
                  'height':300};
   
   // Instantiate and draw our chart, passing in some options.
-  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+  var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
   chart.draw(data, options);
   }
   
+
+  function drawChart(entidade) {
+
+    if(entidade == null){return;}
+   
+     debugger;
+
+     google.load("visualization", "1", {packages: ["corechart"]});
+
+     // Create the data table.
+     var data = new google.visualization.DataTable();
+     data.addColumn('string', 'Topping');
+     data.addColumn('number', 'Slices');
+     data.addRows(entidade.linhas);
+     
+     // Set chart options
+     var options = {'title':entidade.titulo,
+                    'width':400,
+                    'height':300};
+     
+     // Instantiate and draw our chart, passing in some options.
+     var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+     chart.draw(data, options);
+     }
+     
