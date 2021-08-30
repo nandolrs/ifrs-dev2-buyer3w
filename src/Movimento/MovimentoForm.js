@@ -63,7 +63,17 @@ class MovimentoForm extends React.Component
         ,estabelecimento: _estabelecimento
         ,local:{id:this.state.localId}
         };
-        this.SisManterSalvar(entidade);
+        let validar = this.Validar(entidade);
+
+        if(validar.ok)
+        {
+            this.SisManterSalvar(entidade);
+        }
+        else
+        {
+            this.setState(validar.estado);
+        
+    }
     }
 
     Excluir()
@@ -301,8 +311,38 @@ class MovimentoForm extends React.Component
              }
           }             
     }
+    Validar(entidade)
+    {
+        let validar = {ok:true, mensagens:[]};
+        let retorno = {};
 
-    
+    if(entidade.quantidade < 1)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe uma quantidade valida acima de 0")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+
+        if(entidade.valorUnitario < 1)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o valor unitario acima de 1")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        } if(entidade.valorTotal < 1)
+        {
+            retorno = {visao:"mensagem.erro"
+            ,mensagens:window.ToMensagens("Informe o valor total acima de 1")
+            };
+            validar = {ok:false, estado:retorno};
+            return validar;
+        }
+        return validar;
+
+    }
 
 
     render()
