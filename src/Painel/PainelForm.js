@@ -44,7 +44,7 @@ class PainelForm extends React.Component
         {
             this.GraficoMontarEstoquePorClasse(resposta.entidadePesquisa);
         }
-        else if(acao =='ponto-minimo-por-classe')
+        else if(acao =='consultou-ponto-minimo-por-classe')
         {
             this.GraficoMontarPontoMinimoPorClasse(resposta.entidadePesquisa);
         }
@@ -105,39 +105,6 @@ class PainelForm extends React.Component
 
     }
 
-    Salvou(resposta)
-    {
-        
-        var retorno = null;
-
-        if(resposta.request.status == 200)
-        {
-            var erro = resposta.data.erro;
-            if(erro != null)
-            {
-                var itens = erro.itens;
-                var msg = itens[0].mensagem;
-                retorno = {visao:"mensagem.erro"
-                  , mensagens:erro.itens
-                };
-            }
-            else
-            {
-                retorno = {visao:"mensagem.sucesso"
-                  ,mensagens:window.ToMensagens("Registro salvo com sucesso.")
-                };
-            }
-        }
-        else
-        {
-            retorno = {visao:"mensagem.erro"
-            ,mensagens:window.ToMensagens("Erro ao salvar registro, repita a operação.")
-            };
-        }
-
-        this.Evento(retorno, 'salvou');
-
-    }
 
 
     SisManterConsultar(entidade)
