@@ -691,40 +691,11 @@ function hospedeiro()
 
 }
 
-function drawChart1() {
-
- // google.charts.setOnLoadCallback(drawChart);
-
- //google.charts.load('current', {'packages':['corechart']});
-
-  debugger;
-  
-  // Create the data table.
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Topping');
-  data.addColumn('number', 'Slices');
-  data.addRows([
-    ['Mushrooms', 3],
-    ['Onions', 1],
-    ['Olives', 1],
-    ['Zucchini', 1],
-    ['Pepperoni', 2]
-  ]);
-  
-  // Set chart options
-  var options = {'title':'How Much Pizza I Ate Last Night',
-                 'width':400,
-                 'height':300};
-  
-  // Instantiate and draw our chart, passing in some options.
-  var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
-  chart.draw(data, options);
-  }
   
 
-  function drawChart(entidade) {
+  function drawChart(entidade, container) {
 
-    if(entidade == null){return;}
+    if(entidade == null || container == null){return;}
    
      debugger;
 
@@ -742,7 +713,7 @@ function drawChart1() {
                     'height':300};
      
      // Instantiate and draw our chart, passing in some options.
-     var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+     var chart = new google.visualization.PieChart(document.getElementById(container));
      chart.draw(data, options);
      }
      
